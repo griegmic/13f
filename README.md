@@ -82,6 +82,15 @@ python scraper.py
 # → writes output/holdings_2026Q1.csv
 ```
 
+## Mini site
+
+The results are browsable at **https://griegmic.github.io/13f/** — sortable/searchable table of all holdings, one dataset per quarter. To update it after a scraper run:
+
+```bash
+python publish_site.py   # copies output/*.json into docs/data/ + rebuilds manifest
+git add docs && git commit -m "Publish Qn data" && git push
+```
+
 ## SEC EDGAR usage rules
 
 - **User-Agent header is required** — SEC blocks requests without one. Format: `Your Name your@email.com`.

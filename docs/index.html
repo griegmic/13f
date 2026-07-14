@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13F — Where the Smart Money Is</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 60px; }
+  h1 { font-size: 26px; letter-spacing: -0.5px; }
+  .sub { color: var(--muted); margin: 6px 0 24px; }
+  .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  input, select {
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 12px; font-size: 14px; outline: none;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  input { flex: 1; min-width: 220px; }
+  .stat { color: var(--muted); font-size: 13px; margin-left: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  th, td { padding: 10px 14px; text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: right; color: var(--muted); }
+  th:nth-child(2), td:nth-child(2) { text-align: left; }
+  td:nth-child(2) { max-width: 340px; overflow: hidden; text-overflow: ellipsis; }
+  thead th {
+    background: #1c2129; color: var(--muted); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.4px; cursor: pointer; user-select: none; position: sticky; top: 0;
+  }
+  thead th:hover { color: var(--text); }
+  tbody tr { border-top: 1px solid var(--border); }
+  tbody tr:hover { background: #1c2129; }
+  .val { font-variant-numeric: tabular-nums; }
+  .funds-badge {
+    display: inline-block; min-width: 28px; text-align: center; border-radius: 999px;
+    padding: 1px 8px; font-size: 12px; background: #12261e; color: var(--green); border: 1px solid #1f4d38;
+  }
+  .more { display: block; margin: 18px auto 0; background: var(--panel); color: var(--accent);
+    border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
+  .more:hover { border-color: var(--accent); }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 28px; line-height: 1.7; }
+  footer a { color: var(--accent); text-decoration: none; }
+  .arrow { font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>13F — Where the Smart Money Is</h1>
+  <p class="sub">Aggregated holdings of 20 top hedge funds from SEC 13F-HR filings, ranked by total dollars invested.</p>
+
+  <div class="controls">
+    <select id="quarter"></select>
+    <input id="search" type="search" placeholder="Search issuer or CUSIP…">
+    <span class="stat" id="stat"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th data-k="rank">#</th>
+        <th data-k="issuer_name">Issuer</th>
+        <th data-k="total_market_value_usd">Total Value</th>
+        <th data-k="num_funds_holding"># Funds</th>
+        <th data-k="total_shares">Shares</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <button class="more" id="more">Show more</button>
+
+  <footer>
+    Data: SEC EDGAR 13F-HR filings. Values are quarter-end positions, published 45 days after quarter close — a snapshot, not real-time.
+    Long positions only; short positions are not disclosed in 13Fs.<br>
+    Built by <a href="https://github.com/griegmic/13f">griegmic/13f</a>. Not investment advice.
+  </footer>
+</div>
+
+<script>
+const PAGE = 100;
+let data = [], view = [], shown = PAGE;
+let sortKey = "total_market_value_usd", sortDir = -1;
+
+const $ = (id) => document.getElementById(id);
+
+function fmtUsd(n) {
+  if (n >= 1e9) return "$" + (n / 1e9).toFixed(1) + "B";
+  if (n >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
+  if (n >= 1e3) return "$" + (n / 1e3).toFixed(0) + "K";
+  return "$" + n;
+}
+
+function render() {
+  const rows = view.slice(0, shown).map((r) => `
+    <tr>
+      <td>${r.rank}</td>
+      <td title="CUSIP ${r.cusip}">${r.issuer_name}</td>
+      <td class="val" title="$${r.total_market_value_usd.toLocaleString()}">${fmtUsd(r.total_market_value_usd)}</td>
+      <td><span class="funds-badge">${r.num_funds_holding}</span></td>
+      <td class="val">${r.total_shares.toLocaleString()}</td>
+    </tr>`).join("");
+  $("rows").innerHTML = rows;
+  $("stat").textContent = `${view.length.toLocaleString()} securities`;
+  $("more").style.display = shown < view.length ? "block" : "none";
+  document.querySelectorAll("thead th").forEach((th) => {
+    const base = th.textContent.replace(/ [▲▼]$/, "");
+    th.textContent = th.dataset.k === sortKey ? base + (sortDir < 0 ? " ▼" : " ▲") : base;
+  });
+}
+
+function apply() {
+  const q = $("search").value.trim().toUpperCase();
+  view = q
+    ? data.filter((r) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q))
+    : data.slice();
+  view.sort((a, b) => (a[sortKey] < b[sortKey] ? sortDir : a[sortKey] > b[sortKey] ? -sortDir : 0) * -1);
+  shown = PAGE;
+  render();
+}
+
+async function loadQuarter(file) {
+  const res = await fetch("data/" + file);
+  data = await res.json();
+  // rank by value regardless of current sort
+  data.sort((a, b) => b.total_market_value_usd - a.total_market_value_usd);
+  data.forEach((r, i) => (r.rank = i + 1));
+  apply();
+}
+
+async function init() {
+  const res = await fetch("data/manifest.json");
+  const manifest = await res.json();
+  const sel = $("quarter");
+  sel.innerHTML = manifest.quarters
+    .map((q) => `<option value="${q.file}">${q.label}</option>`)
+    .join("");
+  sel.onchange = () => loadQuarter(sel.value);
+  $("search").oninput = apply;
+  $("more").onclick = () => { shown += PAGE * 4; render(); };
+  document.querySelectorAll("thead th").forEach((th) => {
+    th.onclick = () => {
+      const k = th.dataset.k;
+      if (sortKey === k) sortDir *= -1;
+      else { sortKey = k; sortDir = k === "issuer_name" ? 1 : -1; }
+      apply();
+    };
+  });
+  await loadQuarter(manifest.quarters[0].file);
+}
+init();
+</script>
+</body>
+</html>

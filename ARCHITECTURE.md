@@ -17,6 +17,10 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 4. `parser.py` — strips XML namespaces, parses infotable XML into position dicts
 5. `aggregate.py` — rolls up positions across funds by CUSIP, writes sorted CSV/JSON to `output/` (creates the dir itself)
 
+## Secondary flow: the mini site
+
+`docs/` is a static GitHub Pages site (served from main `/docs` at https://griegmic.github.io/13f/). `docs/index.html` is self-contained (vanilla JS, no build step); it reads `docs/data/manifest.json` for the quarter list, then loads `docs/data/holdings_YYYYQQ.json`. After each scraper run, `python publish_site.py` copies new quarters from `output/` into `docs/data/` and rebuilds the manifest — then commit and push `docs/` to update the live site.
+
 ## Alternate paths / dead code / insurance
 
 None yet — every module is on the active path. `test_scraper.py` is the test suite, not dead code.
