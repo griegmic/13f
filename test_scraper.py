@@ -88,12 +88,12 @@ def test_parser_with_namespace():
 
     apple = next(p for p in positions if p["cusip"] == "037833100")
     assert apple["issuer_name"] == "APPLE INC"
-    assert apple["value_usd"] == 5_000_000_000  # 5000000 * 1000
+    assert apple["value_usd"] == 5_000_000  # full USD per post-2023 schema
     assert apple["shares"] == 28_000_000
     assert apple["share_type"] == "SH"
 
     msft = next(p for p in positions if p["cusip"] == "594918104")
-    assert msft["value_usd"] == 3_000_000_000
+    assert msft["value_usd"] == 3_000_000
     print("PASS: test_parser_with_namespace")
 
 
@@ -101,7 +101,7 @@ def test_parser_without_namespace():
     positions = p13f.parse_infotable(SAMPLE_XML_NO_NS)
     assert len(positions) == 2
     amzn = next(p for p in positions if p["cusip"] == "023135106")
-    assert amzn["value_usd"] == 1_500_000_000
+    assert amzn["value_usd"] == 1_500_000
     print("PASS: test_parser_without_namespace")
 
 

@@ -41,12 +41,19 @@ def parse_infotable(xml_bytes: bytes) -> List[dict]:
     Returns a list of dicts with keys:
         issuer_name, cusip, title_of_class, value_usd, shares, share_type
     """
-    cleaned = _strip_namespaces(xml_bytes)
+    # Parse with namespaces intact, then strip them from the parsed tree —
+    # stripping xmlns declarations from raw text leaves ns1:-prefixed tags
+    # unbound and breaks the parse.
     try:
-        root = ET.fromstring(cleaned)
-    except ET.ParseError as exc:
-        logger.error("XML parse error: %s", exc)
-        return []
+        root = ET.fromstring(xml_bytes)
+    except ET.ParseError:
+        try:
+            root = ET.fromstring(_strip_namespaces(xml_bytes))
+        except ET.ParseError as exc:
+            logger.error("XML parse error: %s", exc)
+            return []
+    for el in root.iter():
+        el.tag = _TAG_NS_PATTERN.sub("", el.tag)
 
     positions = []
     for info in root.iter("infoTable"):
@@ -56,8 +63,9 @@ def parse_infotable(xml_bytes: bytes) -> List[dict]:
             title = _text(info, "titleOfClass") or ""
 
             value_raw = _text(info, "value")
-            # value field is in thousands USD per the 13F schema
-            value_usd = int(value_raw.replace(",", "")) * 1000 if value_raw else 0
+            # value field is in full USD since the SEC's 2023 schema change
+            # (it was thousands before that)
+            value_usd = int(value_raw.replace(",", "")) if value_raw else 0
 
             shrs_el = info.find("shrsOrPrnAmt")
             if shrs_el is None:

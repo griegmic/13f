@@ -32,6 +32,11 @@ None yet — every module is on the active path. `test_scraper.py` is the test s
 
 ## Known-important patterns
 
-- 13F XML namespaces vary by year; `parser.py` strips them with regex before parsing so element selectors stay simple.
+- EDGAR's submissions JSON calls the period-of-report field `reportDate` (not `periodOfReport`); the filing directory listing lives at `.../{accession-no-dashes}/index.json`.
+- Filers name their infotable XML arbitrarily (`MSFS13F033126.XML`, `53405.xml`); `edgar_client.get_infotable_url` picks any `.xml` that isn't `primary_doc.xml`, preferring names containing "infotable".
+- `parser.py` parses XML with namespaces intact, then strips `{ns}` from tags in the parsed tree; regex-stripping raw text is only a fallback (stripping declarations while leaving `ns1:` prefixes breaks the parse).
+- The 13F `value` field is **full USD** since the SEC's 2023 schema change (was thousands before) — do not multiply by 1000.
+- `funds.json` CIKs must be the actual 13F-filing entity — big funds have multiple/defunct CIKs. Verify new entries via EDGAR company search filtered to type 13F-HR, and confirm a recent filing exists.
 - 13F deadlines are 45 days after quarter end; `scheduler.py` hard-codes 2026 dates and the run window is `[deadline + 2, deadline + 5]` to catch late filers.
 - `aggregate.py` keys everything on CUSIP, not ticker — 13F filings don't contain tickers.
+- See `Common-Problems.md` (2026-07-13 entry) for the debugging history behind these notes.

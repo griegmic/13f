@@ -63,7 +63,8 @@ def get_latest_13f(cik: str) -> Optional[dict]:
     forms = filings.get("form", [])
     accessions = filings.get("accessionNumber", [])
     dates = filings.get("filingDate", [])
-    periods = filings.get("periodOfReport", [])
+    # EDGAR calls the period-of-report field "reportDate" in submissions JSON
+    periods = filings.get("reportDate", [])
 
     # Walk newest-first (EDGAR returns them in reverse-chronological order)
     best: Optional[dict] = None
@@ -97,9 +98,10 @@ def get_infotable_url(cik: str, accession: str) -> Optional[str]:
     padded = _pad_cik(cik)
     accession_nodash = accession.replace("-", "")
     index_url = FILING_INDEX_URL.format(cik=padded.lstrip("0"), accession=accession_nodash)
+    # EDGAR serves the directory listing at index.json inside the filing dir
     index_json_url = (
         f"https://www.sec.gov/Archives/edgar/data/{padded.lstrip('0')}"
-        f"/{accession_nodash}/{accession}-index.json"
+        f"/{accession_nodash}/index.json"
     )
     logger.debug("Fetching filing index: %s", index_json_url)
     try:
@@ -108,11 +110,20 @@ def get_infotable_url(cik: str, accession: str) -> Optional[str]:
         # Fall back to the HTML index
         return _scrape_infotable_url_from_html(padded.lstrip("0"), accession_nodash)
 
-    for item in index_data.get("directory", {}).get("item", []):
-        name: str = item.get("name", "").lower()
-        if "infotable" in name and name.endswith(".xml"):
-            base = f"https://www.sec.gov/Archives/edgar/data/{padded.lstrip('0')}/{accession_nodash}/"
-            return base + item["name"]
+    # Filers name the infotable arbitrarily (e.g. MSFS13F033126.XML, 53405.xml);
+    # the reliable rule is: the XML file that is not primary_doc.xml.
+    base = f"https://www.sec.gov/Archives/edgar/data/{padded.lstrip('0')}/{accession_nodash}/"
+    xml_items = [
+        item["name"]
+        for item in index_data.get("directory", {}).get("item", [])
+        if item.get("name", "").lower().endswith(".xml")
+        and item.get("name", "").lower() != "primary_doc.xml"
+    ]
+    for name in xml_items:
+        if "infotable" in name.lower():
+            return base + name
+    if xml_items:
+        return base + xml_items[0]
 
     # Some filings use a different naming convention
     return _scrape_infotable_url_from_html(padded.lstrip("0"), accession_nodash)
