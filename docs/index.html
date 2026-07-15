@@ -70,6 +70,7 @@
   details.howto strong { color: var(--text); }
   details.howto ul { margin: 6px 0 6px 20px; }
   details.howto .ex { border-left: 3px solid var(--border); padding-left: 12px; margin-top: 8px; }
+  #d-table.hide-pct th[data-k="pct"], #d-table.hide-pct td.pct { display: none; }
   footer { color: var(--muted); font-size: 12.5px; margin-top: 28px; line-height: 1.7; }
   footer a { color: var(--accent); text-decoration: none; }
 </style>
@@ -77,7 +78,12 @@
 <body>
 <div class="wrap">
   <h1>13F — Where the Smart Money Is</h1>
-  <p class="sub">Aggregated holdings of 20 top hedge funds from SEC 13F-HR filings.</p>
+  <p class="sub">Aggregated holdings of <a href="#" id="funds-toggle" style="color:var(--accent);text-decoration:none">20 top hedge funds</a> from SEC 13F-HR filings.</p>
+
+  <details class="howto" id="funds-list">
+    <summary>Funds tracked</summary>
+    <div id="funds-names">Loading…</div>
+  </details>
 
   <div class="tabs">
     <button class="tab active" data-view="holdings">Holdings</button>
@@ -120,12 +126,32 @@
 
   <!-- ===================== DELTAS VIEW ===================== -->
   <section id="view-deltas" style="display:none">
-    <details class="howto">
+    <details class="howto" id="howto-buys" style="display:none">
+      <summary>How to read this tab</summary>
+      The assets the 20 funds put the <strong>most new money into</strong> this quarter, ranked by estimated buying (Δ shares × quarter-end price). Price moves don't count — a stock that rallied isn't a "buy" unless funds actually added shares.
+      <ul>
+        <li><strong>Est. Flow</strong> — estimated dollars of actual buying. This is the ranking.</li>
+        <li><strong>% of All Buying</strong> — this asset's share of all the money funds added this quarter. 10% means one in every ten new dollars went here.</li>
+        <li><strong>Δ Value</strong> — raw position change incl. price moves. If it's red while flow is green, funds were buying a falling stock — often the strongest conviction signal here.</li>
+        <li><strong>NEW</strong> — a position opened from zero this quarter: the fund had none, now it does.</li>
+      </ul>
+    </details>
+    <details class="howto" id="howto-sells" style="display:none">
+      <summary>How to read this tab</summary>
+      The assets the 20 funds pulled the <strong>most money out of</strong> this quarter, biggest sells first (Δ shares × quarter-end price). Price moves don't count — a stock that dropped isn't a "sell" unless funds actually unloaded shares.
+      <ul>
+        <li><strong>Est. Flow</strong> — estimated dollars of actual selling. This is the ranking.</li>
+        <li><strong>% of All Selling</strong> — this asset's share of all the money funds pulled out this quarter. 10% means one in every ten dollars sold came from here.</li>
+        <li><strong>Δ Value</strong> — raw position change incl. price moves. If it's green while flow is red, funds were taking profits on a rising stock. If both are deep red, they were fleeing a falling one — the more bearish read.</li>
+        <li><strong>EXITED</strong> — a position fully closed this quarter, the strongest sell signal in 13F data.</li>
+      </ul>
+      Caveat: stock splits inflate share counts without any trading and can fake a large "sell" or "buy."
+    </details>
+    <details class="howto" id="howto-deltas">
       <summary>How to read this tab</summary>
       This compares two quarters and separates <strong>what funds did</strong> from <strong>what the market did</strong>. A position's value can change for two reasons — funds traded, or the price moved — and this tab splits them apart.
       <ul>
-        <li><strong>Est. Flow</strong> — the money funds actually added or removed by trading: share change × quarter-end price. <span style="color:var(--green)">Green = funds bought</span>, <span style="color:var(--red)">red = funds sold</span>. This is the "where is money going" number.</li>
-        <li><strong>Flow % of Total</strong> — that flow as a share of all money invested this quarter, so you can compare across assets.</li>
+        <li><strong>Est. Flow</strong> — the money funds actually added or removed by trading: share change × quarter-end price. <span style="color:var(--green)">Green = funds bought</span>, <span style="color:var(--red)">red = funds sold</span>. This is the "where is money going" number. (Flow percentages live on the Biggest Buys / Biggest Sells tabs, where they're measured against all buying or all selling.)</li>
         <li><strong>Δ Value</strong> — the raw change in position value. It mixes trading with price moves, so it can disagree with the flow. That disagreement is informative:
           <div class="ex">
             <span style="color:var(--green)">Green flow</span> + <span style="color:var(--red)">red Δ Value</span> → funds bought a <em>falling</em> stock (buying the dip). Example: Apple Q1 2026 — funds added 8.5M shares (+$2.2B), but the price drop still pulled the position down $3.6B.<br>
@@ -145,13 +171,13 @@
         <span class="stat" id="d-stat"></span>
       </div>
       <div class="summary" id="d-summary"></div>
-      <table>
+      <table id="d-table" class="hide-pct">
         <thead>
           <tr>
             <th data-k="rank">#</th>
             <th data-k="issuer_name" class="issuer">Issuer</th>
             <th data-k="flow" title="Estimated money added/removed by trading: Δ shares × quarter-end price. Excludes price moves.">Est. Flow</th>
-            <th data-k="pct" title="Estimated flow as % of total money invested this quarter">Flow % of Total</th>
+            <th data-k="pct" title="This asset's share of all buying this quarter">% of All Buying</th>
             <th data-k="delta" title="Raw change in position value — includes price moves">Δ Value</th>
             <th data-k="now">Now</th>
             <th data-k="prev">Prev</th>
@@ -195,6 +221,10 @@ function fmtSigned(n) { return (n > 0 ? "+" : "") + fmtUsd(n); }
 function fmtPct(p) {
   const d = Math.abs(p) >= 0.1 ? 2 : 3;
   return (p > 0 ? "+" : "") + p.toFixed(d) + "%";
+}
+function fmtPctAbs(p) {
+  const a = Math.abs(p);
+  return a.toFixed(a >= 0.1 ? 2 : 3) + "%";
 }
 function cls(n) { return n > 0 ? "pos" : n < 0 ? "neg" : ""; }
 
@@ -278,7 +308,7 @@ const dTable = makeTable({
       <td class="val">${r.viewRank}</td>
       <td class="issuer" title="CUSIP ${r.cusip}">${r.issuer_name}</td>
       <td class="val ${cls(r.flow)}" title="$${Math.round(r.flow).toLocaleString()}">${fmtSigned(r.flow)}</td>
-      <td class="val ${cls(r.flow)}">${fmtPct(r.pct)}</td>
+      <td class="val pct ${cls(r.flow)}">${fmtPctAbs(r.pct)}</td>
       <td class="val ${cls(r.delta)}" title="$${r.delta.toLocaleString()}">${fmtSigned(r.delta)}</td>
       <td class="val">${fmtUsd(r.now)}</td>
       <td class="val">${fmtUsd(r.prev)}</td>
@@ -314,7 +344,7 @@ async function loadDeltas(nowQ, prevQ) {
       cusip,
       issuer_name: (n || p).issuer_name,
       now, prev, delta, flow,
-      pct: (flow / totalNow) * 100,
+      pct: 0, // set per-mode by updatePct
       delta_shares: sharesNow - sharesPrev,
       status: !p ? "NEW" : !n ? "EXITED" : "",
     });
@@ -324,6 +354,8 @@ async function loadDeltas(nowQ, prevQ) {
 
   const inflow = rows.reduce((s, r) => s + Math.max(r.flow, 0), 0);
   const outflow = rows.reduce((s, r) => s + Math.min(r.flow, 0), 0);
+  dTable.inflow = inflow;
+  dTable.outflow = outflow;
   $("d-summary").innerHTML = `
     <div>Total invested ${nowQ.label}<strong>${fmtUsd(totalNow)}</strong></div>
     <div>Total invested ${prevQ.label}<strong>${fmtUsd(totalPrev)}</strong></div>
@@ -333,7 +365,20 @@ async function loadDeltas(nowQ, prevQ) {
     <div>Exited positions<strong>${rows.filter((r) => r.status === "EXITED").length.toLocaleString()}</strong></div>`;
 
   dTable.data = rows;
+  updatePct();
   dTable.apply();
+}
+
+// % of All Buying / % of All Selling — the denominator is the gross flow
+// in the current tab's direction, so it only means something in buys/sells.
+function updatePct() {
+  const inf = dTable.inflow || 1;
+  const out = Math.abs(dTable.outflow) || 1;
+  for (const r of dTable.data) {
+    r.pct = dTable.mode === "buys" ? (r.flow / inf) * 100
+      : dTable.mode === "sells" ? (Math.abs(r.flow) / out) * 100
+      : 0;
+  }
 }
 
 /* ---------- Tabs + init ---------- */
@@ -348,12 +393,32 @@ document.querySelectorAll(".tab").forEach((tab) => {
       dTable.mode = v === "buys" ? "buys" : v === "sells" ? "sells" : "all";
       dTable.sortKey = "flow";
       dTable.sortDir = v === "sells" ? -1 : 1; // sells: most negative first
+      $("d-table").classList.toggle("hide-pct", v === "deltas");
+      const pctTh = $("d-table").querySelector('th[data-k="pct"]');
+      pctTh.textContent = v === "sells" ? "% of All Selling" : "% of All Buying";
+      pctTh.title = v === "sells"
+        ? "This asset's share of all money funds pulled out this quarter"
+        : "This asset's share of all money funds added this quarter";
+      updatePct();
       dTable.apply();
+      $("howto-deltas").style.display = v === "deltas" ? "" : "none";
+      $("howto-buys").style.display = v === "buys" ? "" : "none";
+      $("howto-sells").style.display = v === "sells" ? "" : "none";
     }
   };
 });
 
 async function init() {
+  fetch("data/funds.json").then((r) => r.json()).then((f) => {
+    $("funds-names").innerHTML = f.funds.map((x) => x.name).sort().join(" · ");
+    $("funds-toggle").textContent = `${f.funds.length} top hedge funds`;
+  }).catch(() => { $("funds-list").style.display = "none"; });
+  $("funds-toggle").onclick = (e) => {
+    e.preventDefault();
+    const d = $("funds-list");
+    d.open = !d.open;
+    d.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
   manifest = await (await fetch("data/manifest.json")).json();
   const qs = manifest.quarters; // newest first
 

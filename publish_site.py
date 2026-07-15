@@ -19,6 +19,9 @@ _HOLDINGS_RE = re.compile(r"holdings_(\d{4})Q(\d)\.json$")
 
 def main() -> None:
     os.makedirs(SITE_DATA_DIR, exist_ok=True)
+    # keep the site's fund list in sync with the scraper config
+    shutil.copy2(os.path.join(ROOT, "funds.json"), os.path.join(SITE_DATA_DIR, "funds.json"))
+    print("published funds.json")
     quarters = []
     for name in sorted(os.listdir(OUTPUT_DIR)):
         m = _HOLDINGS_RE.match(name)

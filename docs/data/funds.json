@@ -1,0 +1,84 @@
+{
+  "funds": [
+    {
+      "name": "Bridgewater Associates",
+      "cik": "0001350694"
+    },
+    {
+      "name": "Citadel Advisors LLC",
+      "cik": "0001423053"
+    },
+    {
+      "name": "Millennium Management LLC",
+      "cik": "0001273087"
+    },
+    {
+      "name": "D.E. Shaw & Co.",
+      "cik": "0001009207"
+    },
+    {
+      "name": "Renaissance Technologies LLC",
+      "cik": "0001037389"
+    },
+    {
+      "name": "Two Sigma Investments LP",
+      "cik": "0001179392"
+    },
+    {
+      "name": "Point72 Asset Management LP",
+      "cik": "0001603466"
+    },
+    {
+      "name": "Viking Global Investors LP",
+      "cik": "0001103804"
+    },
+    {
+      "name": "Tiger Global Management LLC",
+      "cik": "0001167483"
+    },
+    {
+      "name": "Coatue Management LLC",
+      "cik": "0001135730"
+    },
+    {
+      "name": "Pershing Square Capital Management LP",
+      "cik": "0001336528"
+    },
+    {
+      "name": "Appaloosa LP",
+      "cik": "0001656456"
+    },
+    {
+      "name": "Baupost Group LLC",
+      "cik": "0001061768"
+    },
+    {
+      "name": "Lone Pine Capital LLC",
+      "cik": "0001061165"
+    },
+    {
+      "name": "Soroban Capital Partners LP",
+      "cik": "0001517857"
+    },
+    {
+      "name": "Elliott Investment Management LP",
+      "cik": "0001791786"
+    },
+    {
+      "name": "Third Point LLC",
+      "cik": "0001040273"
+    },
+    {
+      "name": "ValueAct Holdings LP",
+      "cik": "0001418814"
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cik": "0001067983"
+    },
+    {
+      "name": "DME Capital Management LP (Greenlight)",
+      "cik": "0001489933"
+    }
+  ]
+}
