@@ -111,8 +111,9 @@
           <tr>
             <th data-k="rank">#</th>
             <th data-k="issuer_name" class="issuer">Issuer</th>
-            <th data-k="delta">Δ Value</th>
-            <th data-k="pct" title="Delta as % of total money invested this quarter">Δ % of Total</th>
+            <th data-k="flow" title="Estimated money added/removed by trading: Δ shares × quarter-end price. Excludes price moves.">Est. Flow</th>
+            <th data-k="pct" title="Estimated flow as % of total money invested this quarter">Flow % of Total</th>
+            <th data-k="delta" title="Raw change in position value — includes price moves">Δ Value</th>
             <th data-k="now">Now</th>
             <th data-k="prev">Prev</th>
             <th data-k="delta_shares">Δ Shares</th>
@@ -131,7 +132,8 @@
   <footer>
     Data: SEC EDGAR 13F-HR filings. Values are quarter-end positions, published 45 days after quarter close — a snapshot, not real-time.
     Long positions only; short positions are not disclosed in 13Fs.<br>
-    Note on deltas: a position's value changes with both trading <em>and</em> price moves — Δ Shares is the cleaner buy/sell signal, Δ Value is the money-weighted one.<br>
+    Note on deltas: <strong>Est. Flow</strong> is the money actually added/removed by trading (Δ shares × quarter-end price); <strong>Δ Value</strong> is the raw change, which also includes price moves.
+    Flow estimates can be distorted by stock splits (share counts change without any trading) and by mixed share/principal reporting.<br>
     Built by <a href="https://github.com/griegmic/13f">griegmic/13f</a>. Not investment advice.
   </footer>
 </div>
@@ -227,14 +229,15 @@ async function loadHoldings(file) {
 /* ---------- Deltas ---------- */
 const dTable = makeTable({
   rowsEl: $("d-rows"), statEl: $("d-stat"), moreEl: $("d-more"), searchEl: $("d-search"),
-  defaultKey: "delta",
+  defaultKey: "flow",
   match: (r, q) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q),
   render: (r) => `
     <tr>
       <td class="val">${r.rank}</td>
       <td class="issuer" title="CUSIP ${r.cusip}">${r.issuer_name}</td>
+      <td class="val ${cls(r.flow)}" title="$${Math.round(r.flow).toLocaleString()}">${fmtSigned(r.flow)}</td>
+      <td class="val ${cls(r.flow)}">${fmtPct(r.pct)}</td>
       <td class="val ${cls(r.delta)}" title="$${r.delta.toLocaleString()}">${fmtSigned(r.delta)}</td>
-      <td class="val ${cls(r.delta)}">${fmtPct(r.pct)}</td>
       <td class="val">${fmtUsd(r.now)}</td>
       <td class="val">${fmtUsd(r.prev)}</td>
       <td class="val ${cls(r.delta_shares)}">${(r.delta_shares > 0 ? "+" : "") + r.delta_shares.toLocaleString()}</td>
@@ -254,24 +257,36 @@ async function loadDeltas(nowQ, prevQ) {
     const n = nowBy[cusip], p = prevBy[cusip];
     const now = n ? n.total_market_value_usd : 0;
     const prev = p ? p.total_market_value_usd : 0;
+    const sharesNow = n ? n.total_shares : 0;
+    const sharesPrev = p ? p.total_shares : 0;
     const delta = now - prev;
+    // Estimated trading flow: Δ shares valued at the quarter-end implied
+    // price (value/shares). Strips price moves out of the value change.
+    // NEW positions are pure inflow; EXITED are pure outflow at prior value.
+    let flow;
+    if (!p) flow = now;
+    else if (!n) flow = -prev;
+    else if (sharesNow > 0) flow = (sharesNow - sharesPrev) * (now / sharesNow);
+    else flow = delta; // no share count to price against — fall back to Δ value
     rows.push({
       cusip,
       issuer_name: (n || p).issuer_name,
-      now, prev, delta,
-      pct: (delta / totalNow) * 100,
-      delta_shares: (n ? n.total_shares : 0) - (p ? p.total_shares : 0),
+      now, prev, delta, flow,
+      pct: (flow / totalNow) * 100,
+      delta_shares: sharesNow - sharesPrev,
       status: !p ? "NEW" : !n ? "EXITED" : "",
     });
   }
-  rows.sort((a, b) => b.delta - a.delta);
+  rows.sort((a, b) => b.flow - a.flow);
   rows.forEach((r, i) => (r.rank = i + 1));
 
-  const net = totalNow - totalPrev;
+  const inflow = rows.reduce((s, r) => s + Math.max(r.flow, 0), 0);
+  const outflow = rows.reduce((s, r) => s + Math.min(r.flow, 0), 0);
   $("d-summary").innerHTML = `
     <div>Total invested ${nowQ.label}<strong>${fmtUsd(totalNow)}</strong></div>
     <div>Total invested ${prevQ.label}<strong>${fmtUsd(totalPrev)}</strong></div>
-    <div>Net change<strong class="${cls(net)}">${fmtSigned(net)} (${fmtPct((net / totalPrev) * 100)})</strong></div>
+    <div>Est. money added<strong class="pos">${fmtSigned(inflow)}</strong></div>
+    <div>Est. money removed<strong class="neg">${fmtSigned(outflow)}</strong></div>
     <div>New positions<strong>${rows.filter((r) => r.status === "NEW").length.toLocaleString()}</strong></div>
     <div>Exited positions<strong>${rows.filter((r) => r.status === "EXITED").length.toLocaleString()}</strong></div>`;
 

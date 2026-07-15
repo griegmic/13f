@@ -24,7 +24,7 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 
 Two tabs:
 - **Holdings** — one quarter's aggregate, sortable/searchable.
-- **Quarterly Deltas** — computed *client-side* by joining two adjacent quarters' JSON on CUSIP (no precomputed delta files). Shows Δ value, Δ as % of that quarter's total invested, Δ shares, and NEW/EXITED badges. Requires ≥ 2 quarters in the manifest; shows a notice otherwise. Caveat surfaced in the footer: Δ value conflates trading with price moves — Δ shares is the cleaner buy/sell signal.
+- **Quarterly Deltas** — computed *client-side* by joining two adjacent quarters' JSON on CUSIP (no precomputed delta files). Headline metric is **Est. Flow** = Δ shares × quarter-end implied price (value ÷ shares): the money added/removed by trading, with price moves stripped out. Value change decomposes as Δvalue = flow + price effect; NEW positions are pure inflow, EXITED are −prior value. Also shows flow as % of the quarter's total invested, raw Δ value, Δ shares, NEW/EXITED badges. Requires ≥ 2 quarters in the manifest. Known distortion: stock splits change share counts without trades and fake a large flow.
 
 ## Alternate paths / dead code / insurance
 
