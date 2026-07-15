@@ -1,0 +1,102 @@
+[
+  {
+    "fund_name": "Citadel Advisors LLC",
+    "total_value_usd": 665872168045,
+    "num_positions": 15403
+  },
+  {
+    "fund_name": "Berkshire Hathaway Inc",
+    "total_value_usd": 274160086701,
+    "num_positions": 110
+  },
+  {
+    "fund_name": "Millennium Management LLC",
+    "total_value_usd": 237791015622,
+    "num_positions": 5950
+  },
+  {
+    "fund_name": "D.E. Shaw & Co.",
+    "total_value_usd": 182424024893,
+    "num_positions": 5839
+  },
+  {
+    "fund_name": "Point72 Asset Management LP",
+    "total_value_usd": 89421368731,
+    "num_positions": 3862
+  },
+  {
+    "fund_name": "Two Sigma Investments LP",
+    "total_value_usd": 70897743818,
+    "num_positions": 4041
+  },
+  {
+    "fund_name": "Renaissance Technologies LLC",
+    "total_value_usd": 64461244358,
+    "num_positions": 3185
+  },
+  {
+    "fund_name": "Coatue Management LLC",
+    "total_value_usd": 39962643007,
+    "num_positions": 260
+  },
+  {
+    "fund_name": "Viking Global Investors LP",
+    "total_value_usd": 37677848898,
+    "num_positions": 76
+  },
+  {
+    "fund_name": "Tiger Global Management LLC",
+    "total_value_usd": 29714313270,
+    "num_positions": 54
+  },
+  {
+    "fund_name": "Bridgewater Associates",
+    "total_value_usd": 27421613830,
+    "num_positions": 1040
+  },
+  {
+    "fund_name": "Elliott Investment Management LP",
+    "total_value_usd": 22594232626,
+    "num_positions": 34
+  },
+  {
+    "fund_name": "Pershing Square Capital Management LP",
+    "total_value_usd": 15526737802,
+    "num_positions": 11
+  },
+  {
+    "fund_name": "Soroban Capital Partners LP",
+    "total_value_usd": 14332029218,
+    "num_positions": 29
+  },
+  {
+    "fund_name": "Lone Pine Capital LLC",
+    "total_value_usd": 13611137640,
+    "num_positions": 32
+  },
+  {
+    "fund_name": "Third Point LLC",
+    "total_value_usd": 7274621868,
+    "num_positions": 44
+  },
+  {
+    "fund_name": "ValueAct Holdings LP",
+    "total_value_usd": 7025028860,
+    "num_positions": 16
+  },
+  {
+    "fund_name": "Appaloosa LP",
+    "total_value_usd": 6925020650,
+    "num_positions": 39
+  },
+  {
+    "fund_name": "DME Capital Management LP (Greenlight)",
+    "total_value_usd": 2849309979,
+    "num_positions": 84
+  },
+  {
+    "fund_name": "Baupost Group LLC",
+    "total_value_usd": 5278590,
+    "num_positions": 22
+  }
+]

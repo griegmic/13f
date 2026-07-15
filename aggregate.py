@@ -63,6 +63,31 @@ def write_csv(results: List[dict], period_label: str) -> str:
     return path
 
 
+def fund_totals(fund_positions: List[dict]) -> List[dict]:
+    """Per-fund summary: total 13F value and position count for each fund."""
+    value_sum: dict[str, int] = defaultdict(int)
+    pos_count: dict[str, int] = defaultdict(int)
+    for row in fund_positions:
+        value_sum[row["fund_name"]] += row.get("value_usd", 0)
+        pos_count[row["fund_name"]] += 1
+    results = [
+        {"fund_name": name, "total_value_usd": value_sum[name], "num_positions": pos_count[name]}
+        for name in value_sum
+    ]
+    results.sort(key=lambda r: r["total_value_usd"], reverse=True)
+    return results
+
+
+def write_fund_totals(fund_positions: List[dict], period_label: str) -> str:
+    """Write per-fund totals to output/fund_totals_<period_label>.json."""
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    path = os.path.join(OUTPUT_DIR, f"fund_totals_{period_label}.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(fund_totals(fund_positions), f, indent=2)
+    logger.info("Wrote fund totals to %s", path)
+    return path
+
+
 def write_json(results: List[dict], period_label: str) -> str:
     """Write results to output/holdings_<period_label>.json. Returns the file path."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)

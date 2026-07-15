@@ -15,6 +15,7 @@ OUTPUT_DIR = os.path.join(ROOT, "output")
 SITE_DATA_DIR = os.path.join(ROOT, "docs", "data")
 
 _HOLDINGS_RE = re.compile(r"holdings_(\d{4})Q(\d)\.json$")
+_FUND_TOTALS_RE = re.compile(r"fund_totals_(\d{4})Q(\d)\.json$")
 
 
 def main() -> None:
@@ -24,6 +25,10 @@ def main() -> None:
     print("published funds.json")
     quarters = []
     for name in sorted(os.listdir(OUTPUT_DIR)):
+        if _FUND_TOTALS_RE.match(name):
+            shutil.copy2(os.path.join(OUTPUT_DIR, name), os.path.join(SITE_DATA_DIR, name))
+            print(f"published {name}")
+            continue
         m = _HOLDINGS_RE.match(name)
         if not m:
             continue

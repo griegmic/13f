@@ -131,6 +131,7 @@ def run(force: bool = False, period: Optional[str] = None) -> Optional[str]:
     results = agg.aggregate(all_positions)
     csv_path = agg.write_csv(results, label)
     agg.write_json(results, label)
+    agg.write_fund_totals(all_positions, label)
 
     logger.info("Done. Top 5 holdings:")
     for row in results[:5]:

@@ -57,6 +57,7 @@
   .badge { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 11px; font-weight: 600; }
   .badge.new { background: #12261e; color: var(--green); border: 1px solid #1f4d38; }
   .badge.exited { background: #2d1618; color: var(--red); border: 1px solid #58292c; }
+  .badge.moved { background: #2d2410; color: #d29922; border: 1px solid #5a4a1f; }
   .more { display: block; margin: 18px auto 0; background: var(--panel); color: var(--accent);
     border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
   .more:hover { border-color: var(--accent); }
@@ -104,7 +105,7 @@
         <li><strong># Funds</strong> — how many of the 20 funds hold it. This is the conviction signal: 15 funds holding Meta means broad agreement; one fund holding a $40B position means one whale (usually Berkshire).</li>
         <li><strong>Shares</strong> — combined share count, useful for comparing against the value.</li>
       </ul>
-      Remember these are quarter-end snapshots published 45 days late — a fund may have traded since.
+      Remember these are quarter-end snapshots published 45 days late — a fund may have traded since. One company can also appear under multiple CUSIPs (share classes — e.g. an ADR and the ordinary shares are separate rows).
     </details>
     <div class="controls">
       <select id="h-quarter"></select>
@@ -136,6 +137,7 @@
         <li><strong>% of All Buying</strong> — this asset's share of all the money funds added this quarter. 10% means one in every ten new dollars went here.</li>
         <li><strong>Δ Value</strong> — raw position change incl. price moves. If it's red while flow is green, funds were buying a falling stock — often the strongest conviction signal here.</li>
         <li><strong>NEW</strong> — a position opened from zero this quarter: the fund had none, now it does.</li>
+        <li><span class="badge moved">CUSIP Δ</span> — likely not real buying: the issuer name also exited under another CUSIP (share-class switch), so the "buy" here usually pairs with a fake "sell" on the other side.</li>
       </ul>
     </details>
     <details class="howto" id="howto-sells" style="display:none">
@@ -146,6 +148,7 @@
         <li><strong>% of All Selling</strong> — this asset's share of all the money funds pulled out this quarter. 10% means one in every ten dollars sold came from here.</li>
         <li><strong>Δ Value</strong> — raw position change incl. price moves. If it's green while flow is red, funds were taking profits on a rising stock. If both are deep red, they were fleeing a falling one — the more bearish read.</li>
         <li><strong>EXITED</strong> — a position fully closed this quarter, the strongest sell signal in 13F data.</li>
+        <li><span class="badge moved">CUSIP Δ</span> — likely not real selling: the issuer name also appears new under another CUSIP (share-class switch), so the "sell" here usually pairs with a fake "buy" on the other side.</li>
       </ul>
       Caveat: stock splits inflate share counts without any trading and can fake a large "sell" or "buy."
     </details>
@@ -156,6 +159,7 @@
         <li><strong>Est. Flow</strong> — the full size of the new position (a new stake is pure inflow).</li>
         <li><strong>% of All Buying</strong> — the new stake's share of all money funds added this quarter.</li>
         <li>Most brand-new names are small starter positions — the interesting ones are large flows, which mean a fund opened with conviction rather than dipping a toe.</li>
+        <li><span class="badge moved">CUSIP Δ</span> — the same issuer name also appears on the Exited tab under a different CUSIP. Usually a share-class switch or re-listing (e.g. AstraZeneca's ADR → ordinary shares), not a real new position — though for ETF trust umbrella names it can be two genuinely different funds.</li>
       </ul>
     </details>
     <details class="howto" id="howto-exited" style="display:none">
@@ -165,6 +169,7 @@
         <li><strong>Est. Flow</strong> — the prior position value, all of it withdrawn.</li>
         <li><strong>% of All Selling</strong> — the exit's share of all money funds pulled out this quarter.</li>
         <li>Prev shows what the position was worth before the exit; Now is always $0.</li>
+        <li><span class="badge moved">CUSIP Δ</span> — the same issuer name also appears on the New Positions tab under a different CUSIP. Usually a share-class switch or re-listing, not a real exit — though for ETF trust umbrella names it can be two genuinely different funds.</li>
       </ul>
     </details>
     <details class="howto" id="howto-deltas">
@@ -181,7 +186,7 @@
         <li><strong>Δ Shares</strong> — the raw share change behind the flow estimate.</li>
         <li><strong>NEW / EXITED</strong> — position opened or fully closed this quarter.</li>
       </ul>
-      Caveat: stock splits change share counts without any trading and will fake a big flow — 13F data alone can't detect them.<br>
+      Caveats: stock splits change share counts without any trading and will fake a big flow — 13F data alone can't detect them. And when a company changes CUSIP (share-class switch, re-listing), it shows up as a fake sell + fake buy pair — those rows carry a <span class="badge moved">CUSIP Δ</span> badge.<br>
       The <strong>Biggest Buys</strong> and <strong>Biggest Sells</strong> tabs are this same table filtered to only inflows or only outflows, ranked by size.
     </details>
     <div id="d-content">
@@ -318,6 +323,31 @@ async function loadHoldings(file) {
   data.forEach((r, i) => (r.rank = i + 1));
   hTable.data = data;
   hTable.apply();
+  renderFunds(file);
+}
+
+/* ---------- Funds tracked panel ---------- */
+async function renderFunds(holdingsFile) {
+  try {
+    const totals = await (await fetch("data/" + holdingsFile.replace("holdings_", "fund_totals_"))).json();
+    const sum = totals.reduce((s, f) => s + f.total_value_usd, 0);
+    $("funds-toggle").textContent = `${totals.length} top hedge funds`;
+    $("funds-names").innerHTML = `
+      <table style="margin-top:6px">
+        <thead><tr><th>#</th><th class="issuer">Fund</th><th>13F Value</th><th>Positions</th></tr></thead>
+        <tbody>${totals.map((f, i) => `
+          <tr><td class="val">${i + 1}</td><td class="issuer">${f.fund_name}</td>
+          <td class="val" title="$${f.total_value_usd.toLocaleString()}">${fmtUsd(f.total_value_usd)}</td>
+          <td class="val">${f.num_positions.toLocaleString()}</td></tr>`).join("")}</tbody>
+      </table>
+      <div style="margin-top:8px">Combined: <strong>${fmtUsd(sum)}</strong>. These are 13F-reportable holdings — each fund's disclosed long US equity book. That is <em>not</em> the fund's AUM (excludes shorts, bonds, cash, non-US holdings), and for Berkshire it's the stock portfolio only, not the company's own market value.</div>`;
+  } catch {
+    // fund totals not published for this quarter — fall back to the plain list
+    fetch("data/funds.json").then((r) => r.json()).then((f) => {
+      $("funds-names").innerHTML = f.funds.map((x) => x.name).sort().join(" · ");
+      $("funds-toggle").textContent = `${f.funds.length} top hedge funds`;
+    }).catch(() => { $("funds-list").style.display = "none"; });
+  }
 }
 
 /* ---------- Deltas ---------- */
@@ -335,7 +365,10 @@ const dTable = makeTable({
       <td class="val">${fmtUsd(r.now)}</td>
       <td class="val">${fmtUsd(r.prev)}</td>
       <td class="val ${cls(r.delta_shares)}">${(r.delta_shares > 0 ? "+" : "") + r.delta_shares.toLocaleString()}</td>
-      <td>${r.status === "NEW" ? '<span class="badge new">NEW</span>' : r.status === "EXITED" ? '<span class="badge exited">EXITED</span>' : ""}</td>
+      <td>${r.cusipChange
+        ? '<span class="badge moved" title="This issuer name appears as both exited and new this quarter — usually a share-class or CUSIP change rather than a real entry/exit. For ETF trust umbrella names it can span genuinely different funds.">CUSIP Δ</span>'
+        : r.status === "NEW" ? '<span class="badge new">NEW</span>'
+        : r.status === "EXITED" ? '<span class="badge exited">EXITED</span>' : ""}</td>
     </tr>`,
 });
 
@@ -371,6 +404,19 @@ async function loadDeltas(nowQ, prevQ) {
       status: !p ? "NEW" : !n ? "EXITED" : "",
     });
   }
+  // Detect CUSIP changes: the same issuer exited under one CUSIP and
+  // appeared under another (share-class switch, re-listing). Not a real
+  // entry/exit — badge both rows so they aren't misread.
+  const norm = (s) => s.toUpperCase().replace(/[^A-Z0-9]+/g, " ").trim();
+  const newBy = {}, exitBy = {};
+  for (const r of rows) {
+    if (r.status === "NEW") (newBy[norm(r.issuer_name)] ||= []).push(r);
+    else if (r.status === "EXITED") (exitBy[norm(r.issuer_name)] ||= []).push(r);
+  }
+  for (const k of Object.keys(newBy)) {
+    if (exitBy[k]) for (const r of [...newBy[k], ...exitBy[k]]) r.cusipChange = true;
+  }
+
   rows.sort((a, b) => b.flow - a.flow);
   rows.forEach((r, i) => (r.rank = i + 1));
 
@@ -383,8 +429,8 @@ async function loadDeltas(nowQ, prevQ) {
     <div>Total invested ${prevQ.label}<strong>${fmtUsd(totalPrev)}</strong></div>
     <div>Est. money added<strong class="pos">${fmtSigned(inflow)}</strong></div>
     <div>Est. money removed<strong class="neg">${fmtSigned(outflow)}</strong></div>
-    <div>New positions<strong>${rows.filter((r) => r.status === "NEW").length.toLocaleString()}</strong></div>
-    <div>Exited positions<strong>${rows.filter((r) => r.status === "EXITED").length.toLocaleString()}</strong></div>`;
+    <div>New positions<strong>${rows.filter((r) => r.status === "NEW" && !r.cusipChange).length.toLocaleString()}</strong></div>
+    <div>Exited positions<strong>${rows.filter((r) => r.status === "EXITED" && !r.cusipChange).length.toLocaleString()}</strong></div>`;
 
   dTable.data = rows;
   updatePct();
@@ -433,10 +479,6 @@ document.querySelectorAll(".tab").forEach((tab) => {
 });
 
 async function init() {
-  fetch("data/funds.json").then((r) => r.json()).then((f) => {
-    $("funds-names").innerHTML = f.funds.map((x) => x.name).sort().join(" · ");
-    $("funds-toggle").textContent = `${f.funds.length} top hedge funds`;
-  }).catch(() => { $("funds-list").style.display = "none"; });
   $("funds-toggle").onclick = (e) => {
     e.preventDefault();
     const d = $("funds-list");
