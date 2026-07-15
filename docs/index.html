@@ -61,6 +61,15 @@
     border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
   .more:hover { border-color: var(--accent); }
   .notice { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; color: var(--muted); }
+  details.howto {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 18px; margin-bottom: 16px; font-size: 13.5px; color: var(--muted); line-height: 1.7;
+  }
+  details.howto summary { cursor: pointer; color: var(--accent); font-size: 14px; user-select: none; }
+  details.howto[open] summary { margin-bottom: 8px; }
+  details.howto strong { color: var(--text); }
+  details.howto ul { margin: 6px 0 6px 20px; }
+  details.howto .ex { border-left: 3px solid var(--border); padding-left: 12px; margin-top: 8px; }
   footer { color: var(--muted); font-size: 12.5px; margin-top: 28px; line-height: 1.7; }
   footer a { color: var(--accent); text-decoration: none; }
 </style>
@@ -77,6 +86,16 @@
 
   <!-- ===================== HOLDINGS VIEW ===================== -->
   <section id="view-holdings">
+    <details class="howto">
+      <summary>How to read this tab</summary>
+      This is the combined quarter-end portfolio of all 20 funds — every security anyone held, added up.
+      <ul>
+        <li><strong>Total Value</strong> — combined dollar size of the position across all funds. Big number = where the most money sits.</li>
+        <li><strong># Funds</strong> — how many of the 20 funds hold it. This is the conviction signal: 15 funds holding Meta means broad agreement; one fund holding a $40B position means one whale (usually Berkshire).</li>
+        <li><strong>Shares</strong> — combined share count, useful for comparing against the value.</li>
+      </ul>
+      Remember these are quarter-end snapshots published 45 days late — a fund may have traded since.
+    </details>
     <div class="controls">
       <select id="h-quarter"></select>
       <input id="h-search" type="search" placeholder="Search issuer or CUSIP…">
@@ -99,6 +118,23 @@
 
   <!-- ===================== DELTAS VIEW ===================== -->
   <section id="view-deltas" style="display:none">
+    <details class="howto">
+      <summary>How to read this tab</summary>
+      This compares two quarters and separates <strong>what funds did</strong> from <strong>what the market did</strong>. A position's value can change for two reasons — funds traded, or the price moved — and this tab splits them apart.
+      <ul>
+        <li><strong>Est. Flow</strong> — the money funds actually added or removed by trading: share change × quarter-end price. <span style="color:var(--green)">Green = funds bought</span>, <span style="color:var(--red)">red = funds sold</span>. This is the "where is money going" number.</li>
+        <li><strong>Flow % of Total</strong> — that flow as a share of all money invested this quarter, so you can compare across assets.</li>
+        <li><strong>Δ Value</strong> — the raw change in position value. It mixes trading with price moves, so it can disagree with the flow. That disagreement is informative:
+          <div class="ex">
+            <span style="color:var(--green)">Green flow</span> + <span style="color:var(--red)">red Δ Value</span> → funds bought a <em>falling</em> stock (buying the dip). Example: Apple Q1 2026 — funds added 8.5M shares (+$2.2B), but the price drop still pulled the position down $3.6B.<br>
+            <span style="color:var(--red)">Red flow</span> + <span style="color:var(--green)">green Δ Value</span> → funds trimmed a <em>rising</em> stock (taking profits).
+          </div>
+        </li>
+        <li><strong>Δ Shares</strong> — the raw share change behind the flow estimate.</li>
+        <li><strong>NEW / EXITED</strong> — position opened or fully closed this quarter.</li>
+      </ul>
+      Caveat: stock splits change share counts without any trading and will fake a big flow — 13F data alone can't detect them.
+    </details>
     <div id="d-content">
       <div class="controls">
         <select id="d-pair"></select>
