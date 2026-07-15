@@ -22,7 +22,7 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 
 `docs/` is a static GitHub Pages site (served from main `/docs` at https://griegmic.github.io/13f/). `docs/index.html` is self-contained (vanilla JS, no build step); it reads `docs/data/manifest.json` for the quarter list, then loads `docs/data/holdings_YYYYQQ.json`. After each scraper run, `python publish_site.py` copies new quarters from `output/` into `docs/data/` and rebuilds the manifest — then commit and push `docs/` to update the live site.
 
-Two tabs:
+Four tabs (Buys/Sells reuse the deltas section with a flow-direction filter — there is no separate code path):
 - **Holdings** — one quarter's aggregate, sortable/searchable.
 - **Quarterly Deltas** — computed *client-side* by joining two adjacent quarters' JSON on CUSIP (no precomputed delta files). Headline metric is **Est. Flow** = Δ shares × quarter-end implied price (value ÷ shares): the money added/removed by trading, with price moves stripped out. Value change decomposes as Δvalue = flow + price effect; NEW positions are pure inflow, EXITED are −prior value. Also shows flow as % of the quarter's total invested, raw Δ value, Δ shares, NEW/EXITED badges. Requires ≥ 2 quarters in the manifest. Known distortion: stock splits change share counts without trades and fake a large flow.
 

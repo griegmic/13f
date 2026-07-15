@@ -82,6 +82,8 @@
   <div class="tabs">
     <button class="tab active" data-view="holdings">Holdings</button>
     <button class="tab" data-view="deltas">Quarterly Deltas</button>
+    <button class="tab" data-view="buys">Biggest Buys</button>
+    <button class="tab" data-view="sells">Biggest Sells</button>
   </div>
 
   <!-- ===================== HOLDINGS VIEW ===================== -->
@@ -133,7 +135,8 @@
         <li><strong>Δ Shares</strong> — the raw share change behind the flow estimate.</li>
         <li><strong>NEW / EXITED</strong> — position opened or fully closed this quarter.</li>
       </ul>
-      Caveat: stock splits change share counts without any trading and will fake a big flow — 13F data alone can't detect them.
+      Caveat: stock splits change share counts without any trading and will fake a big flow — 13F data alone can't detect them.<br>
+      The <strong>Biggest Buys</strong> and <strong>Biggest Sells</strong> tabs are this same table filtered to only inflows or only outflows, ranked by size.
     </details>
     <div id="d-content">
       <div class="controls">
@@ -209,10 +212,13 @@ function makeTable(cfg) {
   t.apply = () => {
     const q = t.searchEl.value.trim().toUpperCase();
     t.view = q ? t.data.filter((r) => t.match(r, q)) : t.data.slice();
+    if (t.mode === "buys") t.view = t.view.filter((r) => r.flow > 0);
+    else if (t.mode === "sells") t.view = t.view.filter((r) => r.flow < 0);
     t.view.sort((a, b) => {
       const x = a[t.sortKey], y = b[t.sortKey];
       return (x < y ? 1 : x > y ? -1 : 0) * t.sortDir;
     });
+    t.view.forEach((r, i) => (r.viewRank = i + 1));
     t.shown = PAGE;
     t.draw();
   };
@@ -269,7 +275,7 @@ const dTable = makeTable({
   match: (r, q) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q),
   render: (r) => `
     <tr>
-      <td class="val">${r.rank}</td>
+      <td class="val">${r.viewRank}</td>
       <td class="issuer" title="CUSIP ${r.cusip}">${r.issuer_name}</td>
       <td class="val ${cls(r.flow)}" title="$${Math.round(r.flow).toLocaleString()}">${fmtSigned(r.flow)}</td>
       <td class="val ${cls(r.flow)}">${fmtPct(r.pct)}</td>
@@ -333,9 +339,17 @@ async function loadDeltas(nowQ, prevQ) {
 /* ---------- Tabs + init ---------- */
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.onclick = () => {
+    const v = tab.dataset.view;
     document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t === tab));
-    $("view-holdings").style.display = tab.dataset.view === "holdings" ? "" : "none";
-    $("view-deltas").style.display = tab.dataset.view === "deltas" ? "" : "none";
+    $("view-holdings").style.display = v === "holdings" ? "" : "none";
+    $("view-deltas").style.display = v === "holdings" ? "none" : "";
+    if (v !== "holdings") {
+      // Buys/Sells are the delta table filtered by flow direction
+      dTable.mode = v === "buys" ? "buys" : v === "sells" ? "sells" : "all";
+      dTable.sortKey = "flow";
+      dTable.sortDir = v === "sells" ? -1 : 1; // sells: most negative first
+      dTable.apply();
+    }
   };
 });
 

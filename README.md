@@ -84,10 +84,11 @@ python scraper.py
 
 ## Mini site
 
-The results are browsable at **https://griegmic.github.io/13f/** with two tabs:
+The results are browsable at **https://griegmic.github.io/13f/**:
 
 - **Holdings** — sortable/searchable table of one quarter's aggregate positions.
 - **Quarterly Deltas** — how much money moved into or out of each asset vs the prior quarter. The headline number is **Est. Flow**: Δ shares × quarter-end implied price (value ÷ shares), i.e. the money actually added/removed by *trading*, shown in dollars and as a **percentage of total money invested that quarter**. Raw Δ value (which also includes price moves), Δ shares, and NEW/EXITED badges are alongside. Computed in the browser from two quarters' data; needs at least two published quarters. Caveat: flow estimates are distorted by stock splits (share counts jump without trades).
+- **Biggest Buys / Biggest Sells** — the delta table filtered to only inflows or only outflows, ranked by flow size.
 
 To update the site after a scraper run:
 
