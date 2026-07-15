@@ -48,11 +48,14 @@ def _pad_cik(cik: str) -> str:
     return cik.lstrip("0").zfill(10)
 
 
-def get_latest_13f(cik: str) -> Optional[dict]:
+def get_latest_13f(cik: str, period: Optional[str] = None) -> Optional[dict]:
     """Return metadata for the most recent 13F-HR or 13F-HR/A filing.
 
+    If `period` is given (YYYY-MM-DD quarter-end date), return the filing for
+    that reporting period instead of the most recent one.
+
     Returns a dict with keys: accession_number, filing_date, period_of_report, form_type.
-    Returns None if no 13F-HR filing is found.
+    Returns None if no matching 13F-HR filing is found.
     """
     padded = _pad_cik(cik)
     url = SUBMISSIONS_URL.format(cik=padded)
@@ -68,21 +71,23 @@ def get_latest_13f(cik: str) -> Optional[dict]:
 
     # Walk newest-first (EDGAR returns them in reverse-chronological order)
     best: Optional[dict] = None
-    for form, accession, date, period in zip(forms, accessions, dates, periods):
+    for form, accession, date, report_period in zip(forms, accessions, dates, periods):
         if form in ("13F-HR", "13F-HR/A"):
+            if period and report_period != period:
+                continue
             entry = {
                 "accession_number": accession,
                 "filing_date": date,
-                "period_of_report": period,
+                "period_of_report": report_period,
                 "form_type": form,
             }
             if best is None:
                 best = entry
             else:
                 # Prefer the filing with the most-recent period_of_report
-                if period > best["period_of_report"]:
+                if report_period > best["period_of_report"]:
                     best = entry
-                elif period == best["period_of_report"] and form == "13F-HR/A":
+                elif report_period == best["period_of_report"] and form == "13F-HR/A":
                     # Amendment supersedes original for the same period
                     best = entry
 

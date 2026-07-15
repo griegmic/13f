@@ -34,8 +34,19 @@ def load_funds() -> List[dict]:
         return json.load(f)["funds"]
 
 
-def scrape_fund(fund: dict) -> tuple[Optional[str], List[dict]]:
-    """Fetch and parse the latest 13F for one fund.
+QUARTER_END = {"Q1": "03-31", "Q2": "06-30", "Q3": "09-30", "Q4": "12-31"}
+
+
+def period_to_date(period: str) -> str:
+    """Convert '2025Q4' to the quarter-end date '2025-12-31'."""
+    year, q = period[:4], period[4:].upper()
+    if q not in QUARTER_END or not year.isdigit():
+        raise ValueError(f"Invalid period {period!r} — use e.g. 2025Q4")
+    return f"{year}-{QUARTER_END[q]}"
+
+
+def scrape_fund(fund: dict, period_date: Optional[str] = None) -> tuple[Optional[str], List[dict]]:
+    """Fetch and parse the latest 13F for one fund (or a specific period's).
 
     Returns (period_of_report, positions).
     """
@@ -43,7 +54,7 @@ def scrape_fund(fund: dict) -> tuple[Optional[str], List[dict]]:
     cik = fund["cik"]
     logger.info("Processing %s (CIK %s)", name, cik)
 
-    filing = edgar_client.get_latest_13f(cik)
+    filing = edgar_client.get_latest_13f(cik, period=period_date)
     if filing is None:
         logger.warning("No 13F-HR found for %s — skipping.", name)
         return None, []
@@ -71,35 +82,49 @@ def scrape_fund(fund: dict) -> tuple[Optional[str], List[dict]]:
     return filing["period_of_report"], positions
 
 
-def run(force: bool = False) -> Optional[str]:
-    """Run the full scrape pipeline. Returns the path to the output CSV, or None."""
-    if not force:
+def run(force: bool = False, period: Optional[str] = None) -> Optional[str]:
+    """Run the full scrape pipeline. Returns the path to the output CSV, or None.
+
+    `period` (e.g. '2025Q4') backfills a specific historical quarter and
+    bypasses the deadline-window check.
+    """
+    period_date = period_to_date(period) if period else None
+    if not force and not period_date:
         ok, deadline = scheduler.should_run()
         if not ok:
             logger.info("Not within a run window. Use --force to override.")
             return None
 
     funds = load_funds()
-    all_positions: List[dict] = []
-    periods = []
+    fund_results: List[tuple] = []
 
     for fund in funds:
         try:
-            period, positions = scrape_fund(fund)
+            period, positions = scrape_fund(fund, period_date=period_date)
         except Exception as exc:
             logger.error("Failed to scrape %s: %s", fund["name"], exc)
             continue
-        if period:
-            periods.append(period)
-        all_positions.extend(positions)
+        if period and positions:
+            fund_results.append((fund["name"], period, positions))
 
-    if not all_positions:
+    if not fund_results:
         logger.error("No positions collected — aborting.")
         return None
 
-    # Use the most common period_of_report as the label
+    # Use the most common period_of_report as the label, and exclude funds
+    # whose latest filing is for a different quarter — a fund that stopped
+    # filing under its CIK would otherwise pollute the quarter with stale data.
     from collections import Counter
-    label_period = Counter(periods).most_common(1)[0][0] if periods else None
+    label_period = Counter(p for _, p, _ in fund_results).most_common(1)[0][0]
+    all_positions: List[dict] = []
+    for name, period, positions in fund_results:
+        if period != label_period:
+            logger.warning(
+                "Excluding %s — filed for %s, not %s (stale filing; check its CIK in funds.json)",
+                name, period, label_period,
+            )
+            continue
+        all_positions.extend(positions)
     label = agg.period_label(label_period)
     logger.info("Aggregating %d positions for period %s", len(all_positions), label)
 
@@ -110,10 +135,10 @@ def run(force: bool = False) -> Optional[str]:
     logger.info("Done. Top 5 holdings:")
     for row in results[:5]:
         logger.info(
-            "  %s (%s): $%,.0f across %d funds",
+            "  %s (%s): $%s across %d funds",
             row["issuer_name"],
             row["cusip"],
-            row["total_market_value_usd"],
+            f"{row['total_market_value_usd']:,}",
             row["num_funds_holding"],
         )
 
@@ -148,11 +173,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="13F Hedge Fund Scraper")
     parser.add_argument("--force", action="store_true", help="Run regardless of date")
     parser.add_argument("--test-fund", action="store_true", help="Smoke-test one fund")
+    parser.add_argument("--period", help="Backfill a specific quarter, e.g. 2025Q4")
     args = parser.parse_args()
 
     if args.test_fund:
         test_fund()
     else:
-        out = run(force=args.force)
+        out = run(force=args.force, period=args.period)
         if out:
             print(f"Output: {out}")

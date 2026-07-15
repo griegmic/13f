@@ -128,9 +128,9 @@
   {
     "issuer_name": "SPDR GOLD TR",
     "cusip": "78463V107",
-    "total_market_value_usd": 15405398845,
+    "total_market_value_usd": 15374288378,
     "num_funds_holding": 7,
-    "total_shares": 36017395
+    "total_shares": 35730062
   },
   {
     "issuer_name": "ISHARES TR",
@@ -1428,13 +1428,6 @@
     "total_shares": 8911948
   },
   {
-    "issuer_name": "KENVUE INC",
-    "cusip": "49177J102",
-    "total_market_value_usd": 1332563683,
-    "num_funds_holding": 7,
-    "total_shares": 77156898
-  },
-  {
     "issuer_name": "AST SPACEMOBILE INC",
     "cusip": "00217D100",
     "total_market_value_usd": 1328921469,
@@ -1447,6 +1440,13 @@
     "total_market_value_usd": 1324891694,
     "num_funds_holding": 7,
     "total_shares": 14114112
+  },
+  {
+    "issuer_name": "KENVUE INC",
+    "cusip": "49177J102",
+    "total_market_value_usd": 1320625513,
+    "num_funds_holding": 6,
+    "total_shares": 76602408
   },
   {
     "issuer_name": "ANALOG DEVICES INC",
@@ -1890,6 +1890,13 @@
     "total_shares": 1165807
   },
   {
+    "issuer_name": "CENTENE CORP DEL",
+    "cusip": "15135B101",
+    "total_market_value_usd": 1000305939,
+    "num_funds_holding": 8,
+    "total_shares": 30553022
+  },
+  {
     "issuer_name": "HCA HEALTHCARE INC",
     "cusip": "40412C101",
     "total_market_value_usd": 999678800,
@@ -2065,6 +2072,13 @@
     "total_shares": 10023345
   },
   {
+    "issuer_name": "PG&E CORP",
+    "cusip": "69331C108",
+    "total_market_value_usd": 931151984,
+    "num_funds_holding": 7,
+    "total_shares": 52996698
+  },
+  {
     "issuer_name": "WATERS CORP",
     "cusip": "941848103",
     "total_market_value_usd": 930543105,
@@ -2133,13 +2147,6 @@
     "total_market_value_usd": 913813840,
     "num_funds_holding": 5,
     "total_shares": 4621991
-  },
-  {
-    "issuer_name": "CENTENE CORP DEL",
-    "cusip": "15135B101",
-    "total_market_value_usd": 910866480,
-    "num_funds_holding": 7,
-    "total_shares": 27821212
   },
   {
     "issuer_name": "PINTEREST INC",
@@ -2303,13 +2310,6 @@
     "total_shares": 4298626
   },
   {
-    "issuer_name": "PG&E CORP",
-    "cusip": "69331C108",
-    "total_market_value_usd": 814612775,
-    "num_funds_holding": 6,
-    "total_shares": 46363846
-  },
-  {
     "issuer_name": "ETSY INC",
     "cusip": "29786A106",
     "total_market_value_usd": 801169655,
@@ -2371,13 +2371,6 @@
     "total_market_value_usd": 781410386,
     "num_funds_holding": 6,
     "total_shares": 4133353
-  },
-  {
-    "issuer_name": "TENET HEALTHCARE CORP",
-    "cusip": "88033G407",
-    "total_market_value_usd": 777552327,
-    "num_funds_holding": 8,
-    "total_shares": 4909338
   },
   {
     "issuer_name": "YUM BRANDS INC",
@@ -2555,13 +2548,6 @@
     "total_shares": 6549749
   },
   {
-    "issuer_name": "AERCAP HOLDINGS NV",
-    "cusip": "N00985106",
-    "total_market_value_usd": 716365413,
-    "num_funds_holding": 6,
-    "total_shares": 5336641
-  },
-  {
     "issuer_name": "LIBERTY LIVE HOLDINGS INC",
     "cusip": "530909100",
     "total_market_value_usd": 716164493,
@@ -2611,6 +2597,13 @@
     "total_shares": 2137307
   },
   {
+    "issuer_name": "AERCAP HOLDINGS NV",
+    "cusip": "N00985106",
+    "total_market_value_usd": 697785413,
+    "num_funds_holding": 5,
+    "total_shares": 5086641
+  },
+  {
     "issuer_name": "OKTA INC",
     "cusip": "679295105",
     "total_market_value_usd": 697576977,
@@ -2658,6 +2651,13 @@
     "total_market_value_usd": 679421517,
     "num_funds_holding": 6,
     "total_shares": 58875348
+  },
+  {
+    "issuer_name": "TENET HEALTHCARE CORP",
+    "cusip": "88033G407",
+    "total_market_value_usd": 678104474,
+    "num_funds_holding": 7,
+    "total_shares": 3593368
   },
   {
     "issuer_name": "WIX COM LTD",
@@ -2877,6 +2877,13 @@
     "total_shares": 17900718
   },
   {
+    "issuer_name": "GREEN BRICK PARTNERS INC",
+    "cusip": "392709101",
+    "total_market_value_usd": 617467995,
+    "num_funds_holding": 4,
+    "total_shares": 9580574
+  },
+  {
     "issuer_name": "GODADDY INC",
     "cusip": "380237107",
     "total_market_value_usd": 616710015,
@@ -2933,6 +2940,13 @@
     "total_shares": 5634298
   },
   {
+    "issuer_name": "THE CIGNA GROUP",
+    "cusip": "125523100",
+    "total_market_value_usd": 605587854,
+    "num_funds_holding": 8,
+    "total_shares": 2270245
+  },
+  {
     "issuer_name": "VEEVA SYS INC",
     "cusip": "922475108",
     "total_market_value_usd": 603917147,
@@ -2959,20 +2973,6 @@
     "total_market_value_usd": 601684663,
     "num_funds_holding": 6,
     "total_shares": 2618411
-  },
-  {
-    "issuer_name": "GREEN BRICK PARTNERS INC",
-    "cusip": "392709101",
-    "total_market_value_usd": 599664784,
-    "num_funds_holding": 4,
-    "total_shares": 11518074
-  },
-  {
-    "issuer_name": "FIRST HORIZON CORPORATION",
-    "cusip": "320517105",
-    "total_market_value_usd": 599183132,
-    "num_funds_holding": 7,
-    "total_shares": 26846490
   },
   {
     "issuer_name": "ALCOA CORP",
@@ -3003,13 +3003,6 @@
     "total_shares": 37880158
   },
   {
-    "issuer_name": "FIRST CTZNS BANCSHARES INC D",
-    "cusip": "31946M103",
-    "total_market_value_usd": 589538806,
-    "num_funds_holding": 8,
-    "total_shares": 318942
-  },
-  {
     "issuer_name": "UNITI GROUP LLC",
     "cusip": "912932100",
     "total_market_value_usd": 586864830,
@@ -3031,13 +3024,6 @@
     "total_shares": 1740771
   },
   {
-    "issuer_name": "THE CIGNA GROUP",
-    "cusip": "125523100",
-    "total_market_value_usd": 582007154,
-    "num_funds_holding": 7,
-    "total_shares": 2181845
-  },
-  {
     "issuer_name": "SOUTHERN CO",
     "cusip": "842587107",
     "total_market_value_usd": 581824009,
@@ -3050,6 +3036,13 @@
     "total_market_value_usd": 580521113,
     "num_funds_holding": 8,
     "total_shares": 43648204
+  },
+  {
+    "issuer_name": "FIRST HORIZON CORPORATION",
+    "cusip": "320517105",
+    "total_market_value_usd": 579683538,
+    "num_funds_holding": 6,
+    "total_shares": 25469400
   },
   {
     "issuer_name": "APPLIED OPTOELECTRONICS INC",
@@ -3129,13 +3122,6 @@
     "total_shares": 1082235
   },
   {
-    "issuer_name": "TECK RESOURCES LTD",
-    "cusip": "878742204",
-    "total_market_value_usd": 564884536,
-    "num_funds_holding": 8,
-    "total_shares": 11198876
-  },
-  {
     "issuer_name": "JD.COM INC",
     "cusip": "47215P106",
     "total_market_value_usd": 559141348,
@@ -3176,6 +3162,13 @@
     "total_market_value_usd": 554524295,
     "num_funds_holding": 7,
     "total_shares": 29606209
+  },
+  {
+    "issuer_name": "FIRST CTZNS BANCSHARES INC D",
+    "cusip": "31946M103",
+    "total_market_value_usd": 554319970,
+    "num_funds_holding": 7,
+    "total_shares": 294122
   },
   {
     "issuer_name": "LOUISIANA PAC CORP",
@@ -3248,6 +3241,13 @@
     "total_shares": 12917833
   },
   {
+    "issuer_name": "FLUOR CORP",
+    "cusip": "343412102",
+    "total_market_value_usd": 535434052,
+    "num_funds_holding": 8,
+    "total_shares": 11477686
+  },
+  {
     "issuer_name": "NORWEGIAN CRUISE LINE HLDGS",
     "cusip": "G66721104",
     "total_market_value_usd": 534335540,
@@ -3260,6 +3260,13 @@
     "total_market_value_usd": 533608569,
     "num_funds_holding": 3,
     "total_shares": 611635000
+  },
+  {
+    "issuer_name": "DECKERS OUTDOOR CORP",
+    "cusip": "243537107",
+    "total_market_value_usd": 533443168,
+    "num_funds_holding": 8,
+    "total_shares": 5329635
   },
   {
     "issuer_name": "ROYAL BK CDA",
@@ -3423,6 +3430,13 @@
     "total_shares": 1774044
   },
   {
+    "issuer_name": "TECK RESOURCES LTD",
+    "cusip": "878742204",
+    "total_market_value_usd": 499278834,
+    "num_funds_holding": 7,
+    "total_shares": 9646813
+  },
+  {
     "issuer_name": "DUTCH BROS INC",
     "cusip": "26701L100",
     "total_market_value_usd": 499099432,
@@ -3526,13 +3540,6 @@
     "total_market_value_usd": 485524121,
     "num_funds_holding": 6,
     "total_shares": 7514690
-  },
-  {
-    "issuer_name": "DECKERS OUTDOOR CORP",
-    "cusip": "243537107",
-    "total_market_value_usd": 485260042,
-    "num_funds_holding": 7,
-    "total_shares": 4848237
   },
   {
     "issuer_name": "ADAPTIVE BIOTECHNOLOGIES COR",
@@ -3974,6 +3981,13 @@
     "total_market_value_usd": 407630614,
     "num_funds_holding": 6,
     "total_shares": 1203089
+  },
+  {
+    "issuer_name": "ROIVANT SCIENCES LTD",
+    "cusip": "G76279101",
+    "total_market_value_usd": 407186233,
+    "num_funds_holding": 6,
+    "total_shares": 14699864
   },
   {
     "issuer_name": "ALLSTATE CORP",
@@ -4445,6 +4459,13 @@
     "total_shares": 254253000
   },
   {
+    "issuer_name": "TEVA PHARMACEUTICAL INDS LTD",
+    "cusip": "881624209",
+    "total_market_value_usd": 357224737,
+    "num_funds_holding": 7,
+    "total_shares": 11860051
+  },
+  {
     "issuer_name": "ALKERMES PLC",
     "cusip": "G01767105",
     "total_market_value_usd": 357118249,
@@ -4555,13 +4576,6 @@
     "total_market_value_usd": 348576936,
     "num_funds_holding": 6,
     "total_shares": 38179292
-  },
-  {
-    "issuer_name": "ROIVANT SCIENCES LTD",
-    "cusip": "G76279101",
-    "total_market_value_usd": 347557302,
-    "num_funds_holding": 5,
-    "total_shares": 12547195
   },
   {
     "issuer_name": "GLOBUS MED INC",
@@ -4830,13 +4844,6 @@
     "total_shares": 6379779
   },
   {
-    "issuer_name": "SEADRILL LTD",
-    "cusip": "G7997W102",
-    "total_market_value_usd": 325485625,
-    "num_funds_holding": 5,
-    "total_shares": 7132251
-  },
-  {
     "issuer_name": "ON HLDG AG",
     "cusip": "H5919C104",
     "total_market_value_usd": 325340540,
@@ -4891,6 +4898,13 @@
     "total_market_value_usd": 321244417,
     "num_funds_holding": 5,
     "total_shares": 1631842
+  },
+  {
+    "issuer_name": "ANTERO RESOURCES CORP",
+    "cusip": "03674X106",
+    "total_market_value_usd": 320252369,
+    "num_funds_holding": 8,
+    "total_shares": 7546003
   },
   {
     "issuer_name": "ALCON AG",
@@ -4970,13 +4984,6 @@
     "total_shares": 3719820
   },
   {
-    "issuer_name": "FLUOR CORP",
-    "cusip": "343412102",
-    "total_market_value_usd": 313970173,
-    "num_funds_holding": 7,
-    "total_shares": 6730336
-  },
-  {
     "issuer_name": "OPENDOOR TECHNOLOGIES INC",
     "cusip": "683712103",
     "total_market_value_usd": 312275209,
@@ -5040,11 +5047,25 @@
     "total_shares": 8325451
   },
   {
+    "issuer_name": "CORE NATURAL RESOURCES INC",
+    "cusip": "218937100",
+    "total_market_value_usd": 306481977,
+    "num_funds_holding": 7,
+    "total_shares": 2926401
+  },
+  {
     "issuer_name": "INVESCO EXCH TRADED FD TR II",
     "cusip": "46138E354",
     "total_market_value_usd": 306253929,
     "num_funds_holding": 3,
     "total_shares": 4187229
+  },
+  {
+    "issuer_name": "DHT HOLDINGS INC",
+    "cusip": "Y2065G121",
+    "total_market_value_usd": 305999115,
+    "num_funds_holding": 7,
+    "total_shares": 16748720
   },
   {
     "issuer_name": "MIRUM PHARMACEUTICALS INC",
@@ -5108,6 +5129,13 @@
     "total_market_value_usd": 300696055,
     "num_funds_holding": 7,
     "total_shares": 1933488
+  },
+  {
+    "issuer_name": "SEADRILL LTD",
+    "cusip": "G7997W102",
+    "total_market_value_usd": 299768379,
+    "num_funds_holding": 4,
+    "total_shares": 6588316
   },
   {
     "issuer_name": "VIKING THERAPEUTICS INC",
@@ -5278,6 +5306,13 @@
     "total_shares": 4943007
   },
   {
+    "issuer_name": "VERSANT MEDIA GROUP INC",
+    "cusip": "925283103",
+    "total_market_value_usd": 288587337,
+    "num_funds_holding": 6,
+    "total_shares": 7795444
+  },
+  {
     "issuer_name": "ISHARES TR",
     "cusip": "464287721",
     "total_market_value_usd": 288454534,
@@ -5285,11 +5320,11 @@
     "total_shares": 1589982
   },
   {
-    "issuer_name": "ANTERO RESOURCES CORP",
-    "cusip": "03674X106",
-    "total_market_value_usd": 285938780,
-    "num_funds_holding": 7,
-    "total_shares": 6737483
+    "issuer_name": "GRAPHIC PACKAGING HLDG CO",
+    "cusip": "388689101",
+    "total_market_value_usd": 285670629,
+    "num_funds_holding": 8,
+    "total_shares": 28739500
   },
   {
     "issuer_name": "MANULIFE FINL CORP",
@@ -5299,11 +5334,11 @@
     "total_shares": 8186079
   },
   {
-    "issuer_name": "WEATHERFORD INTL PLC",
-    "cusip": "G48833118",
-    "total_market_value_usd": 284039447,
-    "num_funds_holding": 8,
-    "total_shares": 2987476
+    "issuer_name": "BRIGHTHOUSE FINL INC",
+    "cusip": "10922N103",
+    "total_market_value_usd": 284769818,
+    "num_funds_holding": 6,
+    "total_shares": 4755675
   },
   {
     "issuer_name": "TEREX CORP NEW",
@@ -5397,11 +5432,11 @@
     "total_shares": 3365526
   },
   {
-    "issuer_name": "BRIGHTHOUSE FINL INC",
-    "cusip": "10922N103",
-    "total_market_value_usd": 275653400,
-    "num_funds_holding": 6,
-    "total_shares": 4957198
+    "issuer_name": "CROCS INC",
+    "cusip": "227046109",
+    "total_market_value_usd": 275604899,
+    "num_funds_holding": 7,
+    "total_shares": 3319741
   },
   {
     "issuer_name": "SERVICETITAN INC",
@@ -5458,13 +5493,6 @@
     "total_market_value_usd": 272371927,
     "num_funds_holding": 7,
     "total_shares": 22108111
-  },
-  {
-    "issuer_name": "TEVA PHARMACEUTICAL INDS LTD",
-    "cusip": "881624209",
-    "total_market_value_usd": 272356405,
-    "num_funds_holding": 7,
-    "total_shares": 9217792
   },
   {
     "issuer_name": "BROADRIDGE FINL SOLUTIONS IN",
@@ -5691,6 +5719,13 @@
     "total_shares": 2319964
   },
   {
+    "issuer_name": "VICTORIAS SECRET AND CO",
+    "cusip": "926400102",
+    "total_market_value_usd": 259396023,
+    "num_funds_holding": 7,
+    "total_shares": 5595255
+  },
+  {
     "issuer_name": "WILLIS TOWERS WATSON PLC LTD",
     "cusip": "G96629103",
     "total_market_value_usd": 259339031,
@@ -5731,13 +5766,6 @@
     "total_market_value_usd": 257776903,
     "num_funds_holding": 5,
     "total_shares": 2944003
-  },
-  {
-    "issuer_name": "GRAPHIC PACKAGING HLDG CO",
-    "cusip": "388689101",
-    "total_market_value_usd": 257731693,
-    "num_funds_holding": 8,
-    "total_shares": 22175620
   },
   {
     "issuer_name": "JONES LANG LASALLE INC",
@@ -5824,6 +5852,13 @@
     "total_shares": 2549839
   },
   {
+    "issuer_name": "WEATHERFORD INTL PLC",
+    "cusip": "G48833118",
+    "total_market_value_usd": 253152072,
+    "num_funds_holding": 8,
+    "total_shares": 2676592
+  },
+  {
     "issuer_name": "GALAXY DIGITAL INC.",
     "cusip": "36317J209",
     "total_market_value_usd": 253048501,
@@ -5885,13 +5920,6 @@
     "total_market_value_usd": 247310350,
     "num_funds_holding": 7,
     "total_shares": 4570511
-  },
-  {
-    "issuer_name": "DHT HOLDINGS INC",
-    "cusip": "Y2065G121",
-    "total_market_value_usd": 246746230,
-    "num_funds_holding": 7,
-    "total_shares": 15255830
   },
   {
     "issuer_name": "RBC BEARINGS INC",
@@ -6104,13 +6132,6 @@
     "total_shares": 1382424
   },
   {
-    "issuer_name": "LIVANOVA PLC",
-    "cusip": "G5509L101",
-    "total_market_value_usd": 236350721,
-    "num_funds_holding": 6,
-    "total_shares": 3947156
-  },
-  {
     "issuer_name": "HUDBAY MINERALS INC",
     "cusip": "443628102",
     "total_market_value_usd": 236226662,
@@ -6144,13 +6165,6 @@
     "total_market_value_usd": 235156045,
     "num_funds_holding": 7,
     "total_shares": 2573668
-  },
-  {
-    "issuer_name": "VIATRIS INC",
-    "cusip": "92556V106",
-    "total_market_value_usd": 234845677,
-    "num_funds_holding": 7,
-    "total_shares": 18048789
   },
   {
     "issuer_name": "TAYLOR MORRISON HOME CORP",
@@ -6349,11 +6363,11 @@
     "total_shares": 7587447
   },
   {
-    "issuer_name": "KYNDRYL HLDGS INC",
-    "cusip": "50155Q100",
-    "total_market_value_usd": 221493043,
-    "num_funds_holding": 6,
-    "total_shares": 13171155
+    "issuer_name": "VIATRIS INC",
+    "cusip": "92556V106",
+    "total_market_value_usd": 223058058,
+    "num_funds_holding": 7,
+    "total_shares": 16510589
   },
   {
     "issuer_name": "PUBLIC SVC ENTERPRISE GROUP",
@@ -6410,13 +6424,6 @@
     "total_market_value_usd": 220281649,
     "num_funds_holding": 6,
     "total_shares": 5026966
-  },
-  {
-    "issuer_name": "CROCS INC",
-    "cusip": "227046109",
-    "total_market_value_usd": 220052896,
-    "num_funds_holding": 6,
-    "total_shares": 2650601
   },
   {
     "issuer_name": "MOOG INC",
@@ -6615,13 +6622,6 @@
     "total_shares": 19529049
   },
   {
-    "issuer_name": "CONSOL ENERGY INC NEW",
-    "cusip": "20854L108",
-    "total_market_value_usd": 211673655,
-    "num_funds_holding": 1,
-    "total_shares": 2105577
-  },
-  {
     "issuer_name": "UIPATH INC",
     "cusip": "90364P105",
     "total_market_value_usd": 211372683,
@@ -6776,11 +6776,25 @@
     "total_shares": 9511858
   },
   {
+    "issuer_name": "PELOTON INTERACTIVE INC",
+    "cusip": "70614W100",
+    "total_market_value_usd": 205593510,
+    "num_funds_holding": 8,
+    "total_shares": 47923895
+  },
+  {
     "issuer_name": "OPTION CARE HEALTH INC",
     "cusip": "68404L201",
     "total_market_value_usd": 205092120,
     "num_funds_holding": 6,
     "total_shares": 7618578
+  },
+  {
+    "issuer_name": "ACADIA HEALTHCARE COMPANY IN",
+    "cusip": "00404A109",
+    "total_market_value_usd": 205019151,
+    "num_funds_holding": 6,
+    "total_shares": 8765248
   },
   {
     "issuer_name": "AEROVIRONMENT INC",
@@ -6858,6 +6872,13 @@
     "total_market_value_usd": 202708483,
     "num_funds_holding": 5,
     "total_shares": 8981324
+  },
+  {
+    "issuer_name": "SLM CORP",
+    "cusip": "78442P106",
+    "total_market_value_usd": 202606278,
+    "num_funds_holding": 8,
+    "total_shares": 9463161
   },
   {
     "issuer_name": "DELEK US HLDGS INC NEW",
@@ -7469,6 +7490,13 @@
     "total_shares": 377280
   },
   {
+    "issuer_name": "PARAMOUNT SKYDANCE CORP",
+    "cusip": "69932A204",
+    "total_market_value_usd": 178937047,
+    "num_funds_holding": 4,
+    "total_shares": 19837810
+  },
+  {
     "issuer_name": "ICON PLC",
     "cusip": "G4705A100",
     "total_market_value_usd": 178807084,
@@ -7525,18 +7553,18 @@
     "total_shares": 223980
   },
   {
+    "issuer_name": "ZIM INTEGRATED SHIPPING SERV",
+    "cusip": "M9T951109",
+    "total_market_value_usd": 176783942,
+    "num_funds_holding": 7,
+    "total_shares": 6709068
+  },
+  {
     "issuer_name": "CALIX INC",
     "cusip": "13100M509",
     "total_market_value_usd": 176713494,
     "num_funds_holding": 6,
     "total_shares": 3607134
-  },
-  {
-    "issuer_name": "VERSANT MEDIA GROUP INC",
-    "cusip": "925283103",
-    "total_market_value_usd": 176468010,
-    "num_funds_holding": 5,
-    "total_shares": 4766829
   },
   {
     "issuer_name": "TRANSALTA CORP",
@@ -7607,6 +7635,13 @@
     "total_market_value_usd": 173435745,
     "num_funds_holding": 6,
     "total_shares": 6559597
+  },
+  {
+    "issuer_name": "LIVANOVA PLC",
+    "cusip": "G5509L101",
+    "total_market_value_usd": 172745910,
+    "num_funds_holding": 5,
+    "total_shares": 2717840
   },
   {
     "issuer_name": "LI AUTO INC",
@@ -7735,11 +7770,11 @@
     "total_shares": 19712462
   },
   {
-    "issuer_name": "ZIM INTEGRATED SHIPPING SERV",
-    "cusip": "M9T951109",
-    "total_market_value_usd": 167442181,
-    "num_funds_holding": 6,
-    "total_shares": 6354542
+    "issuer_name": "TD SYNNEX CORPORATION",
+    "cusip": "87162W100",
+    "total_market_value_usd": 167398280,
+    "num_funds_holding": 7,
+    "total_shares": 992225
   },
   {
     "issuer_name": "PATRICK INDS INC",
@@ -7747,6 +7782,13 @@
     "total_market_value_usd": 166721043,
     "num_funds_holding": 2,
     "total_shares": 96194000
+  },
+  {
+    "issuer_name": "PENN ENTERTAINMENT INC",
+    "cusip": "707569109",
+    "total_market_value_usd": 166258988,
+    "num_funds_holding": 6,
+    "total_shares": 11061809
   },
   {
     "issuer_name": "RYANAIR HOLDINGS PLC",
@@ -7896,13 +7938,6 @@
     "total_shares": 300779
   },
   {
-    "issuer_name": "PELOTON INTERACTIVE INC",
-    "cusip": "70614W100",
-    "total_market_value_usd": 162204707,
-    "num_funds_holding": 7,
-    "total_shares": 37809955
-  },
-  {
     "issuer_name": "ISHARES TR",
     "cusip": "46432F396",
     "total_market_value_usd": 162161003,
@@ -8029,13 +8064,6 @@
     "total_shares": 6223112
   },
   {
-    "issuer_name": "SLM CORP",
-    "cusip": "78442P106",
-    "total_market_value_usd": 157605883,
-    "num_funds_holding": 7,
-    "total_shares": 7361321
-  },
-  {
     "issuer_name": "LEVI STRAUSS & CO NEW",
     "cusip": "52736R102",
     "total_market_value_usd": 157520102,
@@ -8055,6 +8083,13 @@
     "total_market_value_usd": 156989530,
     "num_funds_holding": 2,
     "total_shares": 12920949
+  },
+  {
+    "issuer_name": "RESIDEO TECHNOLOGIES INC",
+    "cusip": "76118Y104",
+    "total_market_value_usd": 156950895,
+    "num_funds_holding": 5,
+    "total_shares": 4655915
   },
   {
     "issuer_name": "GROUP 1 AUTOMOTIVE INC",
@@ -8085,6 +8120,13 @@
     "total_shares": 2703369
   },
   {
+    "issuer_name": "LIBERTY GLOBAL LTD",
+    "cusip": "G61188101",
+    "total_market_value_usd": 156150087,
+    "num_funds_holding": 6,
+    "total_shares": 12915640
+  },
+  {
     "issuer_name": "HF SINCLAIR CORP",
     "cusip": "403949100",
     "total_market_value_usd": 156118934,
@@ -8113,6 +8155,13 @@
     "total_shares": 22630990
   },
   {
+    "issuer_name": "CAPRI HOLDINGS LIMITED",
+    "cusip": "G1890L107",
+    "total_market_value_usd": 155308864,
+    "num_funds_holding": 6,
+    "total_shares": 8814351
+  },
+  {
     "issuer_name": "WABTEC",
     "cusip": "929740108",
     "total_market_value_usd": 155180114,
@@ -8132,13 +8181,6 @@
     "total_market_value_usd": 154856750,
     "num_funds_holding": 4,
     "total_shares": 1957239
-  },
-  {
-    "issuer_name": "VICTORIAS SECRET AND CO",
-    "cusip": "926400102",
-    "total_market_value_usd": 154766649,
-    "num_funds_holding": 6,
-    "total_shares": 3338366
   },
   {
     "issuer_name": "CMS ENERGY CORP",
@@ -8237,6 +8279,13 @@
     "total_market_value_usd": 152538801,
     "num_funds_holding": 5,
     "total_shares": 6012566
+  },
+  {
+    "issuer_name": "CNH INDL N V",
+    "cusip": "N20944109",
+    "total_market_value_usd": 152419102,
+    "num_funds_holding": 6,
+    "total_shares": 13856282
   },
   {
     "issuer_name": "BENTLEY SYS INC",
@@ -8505,13 +8554,6 @@
     "total_shares": 2035731
   },
   {
-    "issuer_name": "PARAMOUNT SKYDANCE CORP",
-    "cusip": "69932A204",
-    "total_market_value_usd": 143523805,
-    "num_funds_holding": 3,
-    "total_shares": 15911730
-  },
-  {
     "issuer_name": "ESSEX PPTY TR INC",
     "cusip": "297178105",
     "total_market_value_usd": 143247060,
@@ -8603,13 +8645,6 @@
     "total_shares": 2967578
   },
   {
-    "issuer_name": "VANECK ETF TRUST",
-    "cusip": "92189H607",
-    "total_market_value_usd": 139897654,
-    "num_funds_holding": 4,
-    "total_shares": 348273
-  },
-  {
     "issuer_name": "THE REALREAL INC",
     "cusip": "88339P101",
     "total_market_value_usd": 139614471,
@@ -8636,13 +8671,6 @@
     "total_market_value_usd": 139150473,
     "num_funds_holding": 6,
     "total_shares": 4053321
-  },
-  {
-    "issuer_name": "GULFPORT ENERGY CORP",
-    "cusip": "402635502",
-    "total_market_value_usd": 138702795,
-    "num_funds_holding": 7,
-    "total_shares": 738181
   },
   {
     "issuer_name": "APTARGROUP INC",
@@ -8692,6 +8720,13 @@
     "total_market_value_usd": 137239075,
     "num_funds_holding": 3,
     "total_shares": 2343877
+  },
+  {
+    "issuer_name": "VANECK ETF TRUST",
+    "cusip": "92189H607",
+    "total_market_value_usd": 137028403,
+    "num_funds_holding": 3,
+    "total_shares": 339003
   },
   {
     "issuer_name": "H2O AMERICA",
@@ -9709,13 +9744,6 @@
     "total_shares": 2048469
   },
   {
-    "issuer_name": "CORE NATURAL RESOURCES INC",
-    "cusip": "218937100",
-    "total_market_value_usd": 111878974,
-    "num_funds_holding": 6,
-    "total_shares": 1068261
-  },
-  {
     "issuer_name": "OTTER TAIL CORP",
     "cusip": "689648103",
     "total_market_value_usd": 111545488,
@@ -9742,13 +9770,6 @@
     "total_market_value_usd": 111327292,
     "num_funds_holding": 7,
     "total_shares": 3865531
-  },
-  {
-    "issuer_name": "ALIGHT INC",
-    "cusip": "01626W101",
-    "total_market_value_usd": 111274824,
-    "num_funds_holding": 5,
-    "total_shares": 64919340
   },
   {
     "issuer_name": "NATIONAL HEALTH INVS INC",
@@ -9926,6 +9947,13 @@
     "total_shares": 2392406
   },
   {
+    "issuer_name": "GULFPORT ENERGY CORP",
+    "cusip": "402635502",
+    "total_market_value_usd": 109003191,
+    "num_funds_holding": 6,
+    "total_shares": 515211
+  },
+  {
     "issuer_name": "AMCOR PLC",
     "cusip": "G0250X149",
     "total_market_value_usd": 108902837,
@@ -10064,13 +10092,6 @@
     "total_market_value_usd": 106546405,
     "num_funds_holding": 5,
     "total_shares": 7189366
-  },
-  {
-    "issuer_name": "CNH INDL N V",
-    "cusip": "N20944109",
-    "total_market_value_usd": 106340762,
-    "num_funds_holding": 5,
-    "total_shares": 9667342
   },
   {
     "issuer_name": "HARMONY BIOSCIENCES HLDGS IN",
@@ -10227,6 +10248,13 @@
     "total_shares": 1307888
   },
   {
+    "issuer_name": "TRIPADVISOR INC",
+    "cusip": "896945201",
+    "total_market_value_usd": 104761268,
+    "num_funds_holding": 6,
+    "total_shares": 9827511
+  },
+  {
     "issuer_name": "GETTY RLTY CORP NEW",
     "cusip": "374297109",
     "total_market_value_usd": 104559005,
@@ -10248,6 +10276,20 @@
     "total_shares": 2242112
   },
   {
+    "issuer_name": "SCHEIN HENRY INC",
+    "cusip": "806407102",
+    "total_market_value_usd": 104030277,
+    "num_funds_holding": 6,
+    "total_shares": 1411537
+  },
+  {
+    "issuer_name": "BKV CORP",
+    "cusip": "05603J108",
+    "total_market_value_usd": 103984690,
+    "num_funds_holding": 5,
+    "total_shares": 3646027
+  },
+  {
     "issuer_name": "TETRA TECH INC NEW",
     "cusip": "88162G103",
     "total_market_value_usd": 103876681,
@@ -10267,13 +10309,6 @@
     "total_market_value_usd": 103862934,
     "num_funds_holding": 6,
     "total_shares": 4892272
-  },
-  {
-    "issuer_name": "RESIDEO TECHNOLOGIES INC",
-    "cusip": "76118Y104",
-    "total_market_value_usd": 103859331,
-    "num_funds_holding": 4,
-    "total_shares": 3080965
   },
   {
     "issuer_name": "HEXCEL CORP NEW",
@@ -10535,13 +10570,6 @@
     "total_shares": 1715055
   },
   {
-    "issuer_name": "ACADIA HEALTHCARE COMPANY IN",
-    "cusip": "00404A109",
-    "total_market_value_usd": 99334219,
-    "num_funds_holding": 5,
-    "total_shares": 4246867
-  },
-  {
     "issuer_name": "M/I HOMES INC",
     "cusip": "55305B101",
     "total_market_value_usd": 99322134,
@@ -10612,13 +10640,6 @@
     "total_shares": 3779756
   },
   {
-    "issuer_name": "THE ODP CORP",
-    "cusip": "88337F105",
-    "total_market_value_usd": 98418030,
-    "num_funds_holding": 1,
-    "total_shares": 1748100
-  },
-  {
     "issuer_name": "REDWIRE CORPORATION",
     "cusip": "75776W103",
     "total_market_value_usd": 98220034,
@@ -10638,6 +10659,13 @@
     "total_market_value_usd": 97920406,
     "num_funds_holding": 5,
     "total_shares": 449568
+  },
+  {
+    "issuer_name": "SPECTRUM BRANDS HOLDINGS INC",
+    "cusip": "84790A105",
+    "total_market_value_usd": 97890405,
+    "num_funds_holding": 6,
+    "total_shares": 1328228
   },
   {
     "issuer_name": "EMERA INC",
@@ -10757,13 +10785,6 @@
     "total_market_value_usd": 96512269,
     "num_funds_holding": 6,
     "total_shares": 3916894
-  },
-  {
-    "issuer_name": "LIBERTY GLOBAL LTD",
-    "cusip": "G61188101",
-    "total_market_value_usd": 96143524,
-    "num_funds_holding": 5,
-    "total_shares": 7952318
   },
   {
     "issuer_name": "ENLIVEN THERAPEUTICS INC",
@@ -11130,6 +11151,13 @@
     "total_shares": 629379
   },
   {
+    "issuer_name": "DAUCH CORP",
+    "cusip": "024061103",
+    "total_market_value_usd": 90933052,
+    "num_funds_holding": 6,
+    "total_shares": 15334410
+  },
+  {
     "issuer_name": "XPENG INC",
     "cusip": "98422D105",
     "total_market_value_usd": 90922711,
@@ -11205,6 +11233,13 @@
     "total_market_value_usd": 89838713,
     "num_funds_holding": 6,
     "total_shares": 1829709
+  },
+  {
+    "issuer_name": "KYNDRYL HLDGS INC",
+    "cusip": "50155Q100",
+    "total_market_value_usd": 89413928,
+    "num_funds_holding": 5,
+    "total_shares": 6815086
   },
   {
     "issuer_name": "CVR ENERGY INC",
@@ -11326,13 +11361,6 @@
     "total_shares": 1351816
   },
   {
-    "issuer_name": "TRIPADVISOR INC",
-    "cusip": "896945201",
-    "total_market_value_usd": 88081609,
-    "num_funds_holding": 5,
-    "total_shares": 8262815
-  },
-  {
     "issuer_name": "TRANSMEDICS GROUP INC",
     "cusip": "89377M109",
     "total_market_value_usd": 88017812,
@@ -11415,13 +11443,6 @@
     "total_market_value_usd": 86621348,
     "num_funds_holding": 3,
     "total_shares": 1943054
-  },
-  {
-    "issuer_name": "TD SYNNEX CORPORATION",
-    "cusip": "87162W100",
-    "total_market_value_usd": 86496774,
-    "num_funds_holding": 6,
-    "total_shares": 512695
   },
   {
     "issuer_name": "CARLISLE COS INC",
@@ -11667,6 +11688,13 @@
     "total_market_value_usd": 82043335,
     "num_funds_holding": 2,
     "total_shares": 772900
+  },
+  {
+    "issuer_name": "SOTERA HEALTH CO",
+    "cusip": "83601L102",
+    "total_market_value_usd": 81708217,
+    "num_funds_holding": 7,
+    "total_shares": 5697923
   },
   {
     "issuer_name": "KODIAK SCIENCES INC",
@@ -12108,13 +12136,6 @@
     "total_market_value_usd": 75490847,
     "num_funds_holding": 6,
     "total_shares": 4665689
-  },
-  {
-    "issuer_name": "PENN ENTERTAINMENT INC",
-    "cusip": "707569109",
-    "total_market_value_usd": 75411055,
-    "num_funds_holding": 5,
-    "total_shares": 5017369
   },
   {
     "issuer_name": "DEFINIUM THERAPEUTICS INC",
@@ -12572,13 +12593,6 @@
     "total_shares": 68941000
   },
   {
-    "issuer_name": "CAPRI HOLDINGS LIMITED",
-    "cusip": "G1890L107",
-    "total_market_value_usd": 68436661,
-    "num_funds_holding": 5,
-    "total_shares": 3884033
-  },
-  {
     "issuer_name": "BADGER METER INC",
     "cusip": "056525108",
     "total_market_value_usd": 68389764,
@@ -12787,13 +12801,6 @@
     "total_market_value_usd": 65846596,
     "num_funds_holding": 4,
     "total_shares": 1666316
-  },
-  {
-    "issuer_name": "HERC HLDGS INC",
-    "cusip": "42704L104",
-    "total_market_value_usd": 65828674,
-    "num_funds_holding": 6,
-    "total_shares": 594050
   },
   {
     "issuer_name": "IREN   LIMITED",
@@ -13146,6 +13153,13 @@
     "total_shares": 2863987
   },
   {
+    "issuer_name": "STUBHUB HLDGS INC",
+    "cusip": "86384P109",
+    "total_market_value_usd": 63021735,
+    "num_funds_holding": 3,
+    "total_shares": 10099637
+  },
+  {
     "issuer_name": "CANADIAN PACIFIC KANSAS CITY",
     "cusip": "13646K108",
     "total_market_value_usd": 62879969,
@@ -13461,13 +13475,6 @@
     "total_shares": 4240971
   },
   {
-    "issuer_name": "SCHEIN HENRY INC",
-    "cusip": "806407102",
-    "total_market_value_usd": 59861867,
-    "num_funds_holding": 5,
-    "total_shares": 812237
-  },
-  {
     "issuer_name": "INMODE LTD",
     "cusip": "M5425M103",
     "total_market_value_usd": 59493103,
@@ -13641,13 +13648,6 @@
     "total_market_value_usd": 57801899,
     "num_funds_holding": 4,
     "total_shares": 1936412
-  },
-  {
-    "issuer_name": "SOTERA HEALTH CO",
-    "cusip": "83601L102",
-    "total_market_value_usd": 57764310,
-    "num_funds_holding": 7,
-    "total_shares": 3969213
   },
   {
     "issuer_name": "PROASSURANCE CORP",
@@ -14040,13 +14040,6 @@
     "total_market_value_usd": 53511226,
     "num_funds_holding": 6,
     "total_shares": 2381452
-  },
-  {
-    "issuer_name": "DAUCH CORP",
-    "cusip": "024061103",
-    "total_market_value_usd": 53506746,
-    "num_funds_holding": 5,
-    "total_shares": 9023060
   },
   {
     "issuer_name": "ENERPAC TOOL GROUP CORP",
@@ -14511,13 +14504,6 @@
     "total_shares": 47400000
   },
   {
-    "issuer_name": "SPECTRUM BRANDS HOLDINGS INC",
-    "cusip": "84790A105",
-    "total_market_value_usd": 49958946,
-    "num_funds_holding": 5,
-    "total_shares": 677869
-  },
-  {
     "issuer_name": "AMERICAN SUPERCONDUCTOR CORP",
     "cusip": "030111207",
     "total_market_value_usd": 49944965,
@@ -14595,6 +14581,13 @@
     "total_shares": 3295289
   },
   {
+    "issuer_name": "SLIDE INS HLDGS INC",
+    "cusip": "831349105",
+    "total_market_value_usd": 49435776,
+    "num_funds_holding": 4,
+    "total_shares": 2746432
+  },
+  {
     "issuer_name": "SPROTT FDS TR",
     "cusip": "85208P873",
     "total_market_value_usd": 49373874,
@@ -14663,6 +14656,13 @@
     "total_market_value_usd": 48831425,
     "num_funds_holding": 5,
     "total_shares": 175180
+  },
+  {
+    "issuer_name": "GALAPAGOS NV",
+    "cusip": "36315X101",
+    "total_market_value_usd": 48797670,
+    "num_funds_holding": 7,
+    "total_shares": 1626589
   },
   {
     "issuer_name": "GOLD ROYALTY CORP",
@@ -15006,6 +15006,13 @@
     "total_market_value_usd": 45804093,
     "num_funds_holding": 5,
     "total_shares": 2906351
+  },
+  {
+    "issuer_name": "HERC HLDGS INC",
+    "cusip": "42704L104",
+    "total_market_value_usd": 45637701,
+    "num_funds_holding": 5,
+    "total_shares": 458440
   },
   {
     "issuer_name": "LEONARDO DRS INC",
@@ -15799,13 +15806,6 @@
     "total_shares": 1288545
   },
   {
-    "issuer_name": "GALAPAGOS NV",
-    "cusip": "36315X101",
-    "total_market_value_usd": 40924086,
-    "num_funds_holding": 7,
-    "total_shares": 1306421
-  },
-  {
     "issuer_name": "CASELLA WASTE SYS INC",
     "cusip": "147448104",
     "total_market_value_usd": 40873509,
@@ -16366,13 +16366,6 @@
     "total_shares": 1125764
   },
   {
-    "issuer_name": "SPDR SERIES TRUST",
-    "cusip": "78464A631",
-    "total_market_value_usd": 38409740,
-    "num_funds_holding": 4,
-    "total_shares": 211761
-  },
-  {
     "issuer_name": "OBSIDIAN ENERGY LTD",
     "cusip": "674482203",
     "total_market_value_usd": 38391881,
@@ -16618,13 +16611,6 @@
     "total_shares": 2928397
   },
   {
-    "issuer_name": "STUBHUB HLDGS INC",
-    "cusip": "86384P109",
-    "total_market_value_usd": 36606567,
-    "num_funds_holding": 2,
-    "total_shares": 5866437
-  },
-  {
     "issuer_name": "OCUGEN INC",
     "cusip": "67577C105",
     "total_market_value_usd": 36558237,
@@ -16847,13 +16833,6 @@
     "total_market_value_usd": 35115847,
     "num_funds_holding": 4,
     "total_shares": 2400263
-  },
-  {
-    "issuer_name": "NET POWER INC",
-    "cusip": "64107A105",
-    "total_market_value_usd": 35071684,
-    "num_funds_holding": 7,
-    "total_shares": 6101965
   },
   {
     "issuer_name": "GLOBAL X FDS",
@@ -17374,6 +17353,13 @@
     "total_shares": 2106418
   },
   {
+    "issuer_name": "ALIGHT INC",
+    "cusip": "01626W101",
+    "total_market_value_usd": 32443378,
+    "num_funds_holding": 4,
+    "total_shares": 55677670
+  },
+  {
     "issuer_name": "BLACKBERRY LTD",
     "cusip": "09228F103",
     "total_market_value_usd": 32420170,
@@ -17773,6 +17759,13 @@
     "total_shares": 747875
   },
   {
+    "issuer_name": "NUVATION BIO INC",
+    "cusip": "67080N101",
+    "total_market_value_usd": 30454887,
+    "num_funds_holding": 6,
+    "total_shares": 7099041
+  },
+  {
     "issuer_name": "QCR HLDGS INC",
     "cusip": "74727A104",
     "total_market_value_usd": 30415757,
@@ -17785,13 +17778,6 @@
     "total_market_value_usd": 30404868,
     "num_funds_holding": 1,
     "total_shares": 522600
-  },
-  {
-    "issuer_name": "NUVATION BIO INC",
-    "cusip": "67080N101",
-    "total_market_value_usd": 30357600,
-    "num_funds_holding": 6,
-    "total_shares": 7099041
   },
   {
     "issuer_name": "FORTUNA MNG CORP",
@@ -17855,13 +17841,6 @@
     "total_market_value_usd": 30036263,
     "num_funds_holding": 6,
     "total_shares": 10393170
-  },
-  {
-    "issuer_name": "INVESCO EXCHANGE TRADED FD T",
-    "cusip": "46137V100",
-    "total_market_value_usd": 30015255,
-    "num_funds_holding": 5,
-    "total_shares": 263479
   },
   {
     "issuer_name": "BIT DIGITAL INC",
@@ -18478,13 +18457,6 @@
     "total_market_value_usd": 27117042,
     "num_funds_holding": 3,
     "total_shares": 351667
-  },
-  {
-    "issuer_name": "BKV CORP",
-    "cusip": "05603J108",
-    "total_market_value_usd": 27107803,
-    "num_funds_holding": 4,
-    "total_shares": 950484
   },
   {
     "issuer_name": "LITHIUM    ARGENTINA       AG",
@@ -20314,6 +20286,13 @@
     "total_shares": 499106
   },
   {
+    "issuer_name": "SPDR SERIES TRUST",
+    "cusip": "78464A631",
+    "total_market_value_usd": 20850234,
+    "num_funds_holding": 3,
+    "total_shares": 82094
+  },
+  {
     "issuer_name": "PIMCO ETF TR",
     "cusip": "72201R551",
     "total_market_value_usd": 20845047,
@@ -20965,13 +20944,6 @@
     "total_shares": 511446
   },
   {
-    "issuer_name": "SLIDE INS HLDGS INC",
-    "cusip": "831349105",
-    "total_market_value_usd": 19076436,
-    "num_funds_holding": 3,
-    "total_shares": 1059802
-  },
-  {
     "issuer_name": "NORTHEAST BK PORTLAND ME",
     "cusip": "66405S100",
     "total_market_value_usd": 19075706,
@@ -21131,13 +21103,6 @@
     "total_market_value_usd": 18716224,
     "num_funds_holding": 5,
     "total_shares": 479166
-  },
-  {
-    "issuer_name": "NEW YORK CMNTY BANCORP INC",
-    "cusip": "649445103",
-    "total_market_value_usd": 18707908,
-    "num_funds_holding": 1,
-    "total_shares": 1828730
   },
   {
     "issuer_name": "SMARTFINANCIAL INC",
@@ -21551,13 +21516,6 @@
     "total_market_value_usd": 17411986,
     "num_funds_holding": 3,
     "total_shares": 481926
-  },
-  {
-    "issuer_name": "FIRST TR EXCHANGE-TRADED FD",
-    "cusip": "33733E807",
-    "total_market_value_usd": 17401745,
-    "num_funds_holding": 5,
-    "total_shares": 562794
   },
   {
     "issuer_name": "EGH ACQUISITION CORP.",
@@ -22132,6 +22090,13 @@
     "total_market_value_usd": 15984096,
     "num_funds_holding": 6,
     "total_shares": 2410874
+  },
+  {
+    "issuer_name": "FIRST TR EXCHANGE-TRADED FD",
+    "cusip": "33733E807",
+    "total_market_value_usd": 15979809,
+    "num_funds_holding": 4,
+    "total_shares": 504254
   },
   {
     "issuer_name": "SIM ACQUISITION CORP. I",
@@ -23709,6 +23674,13 @@
     "total_shares": 1301954
   },
   {
+    "issuer_name": "INVESCO EXCHANGE TRADED FD T",
+    "cusip": "46137V100",
+    "total_market_value_usd": 12917640,
+    "num_funds_holding": 4,
+    "total_shares": 77958
+  },
+  {
     "issuer_name": "BIGLARI HLDGS INC",
     "cusip": "08986R408",
     "total_market_value_usd": 12880221,
@@ -23728,13 +23700,6 @@
     "total_market_value_usd": 12841542,
     "num_funds_holding": 1,
     "total_shares": 13675000
-  },
-  {
-    "issuer_name": "GOPRO INC",
-    "cusip": "38268T103",
-    "total_market_value_usd": 12831117,
-    "num_funds_holding": 6,
-    "total_shares": 6764608
   },
   {
     "issuer_name": "EVERSPIN TECHNOLOGIES INC",
@@ -23952,6 +23917,13 @@
     "total_market_value_usd": 12506099,
     "num_funds_holding": 4,
     "total_shares": 2835850
+  },
+  {
+    "issuer_name": "IMMUNOVANT INC",
+    "cusip": "45258J102",
+    "total_market_value_usd": 12502418,
+    "num_funds_holding": 3,
+    "total_shares": 503318
   },
   {
     "issuer_name": "BERTO ACQUISITION CORP",
@@ -25389,13 +25361,6 @@
     "total_shares": 106700
   },
   {
-    "issuer_name": "IMMUNOVANT INC",
-    "cusip": "45258J102",
-    "total_market_value_usd": 10179382,
-    "num_funds_holding": 2,
-    "total_shares": 409798
-  },
-  {
     "issuer_name": "LATHAM GROUP INC",
     "cusip": "51819L107",
     "total_market_value_usd": 10168654,
@@ -25436,13 +25401,6 @@
     "total_market_value_usd": 10067783,
     "num_funds_holding": 2,
     "total_shares": 458878
-  },
-  {
-    "issuer_name": "COYA THERAPEUTICS INC",
-    "cusip": "22407B108",
-    "total_market_value_usd": 10065038,
-    "num_funds_holding": 4,
-    "total_shares": 1432530
   },
   {
     "issuer_name": "TRUPANION INC",
@@ -25576,6 +25534,13 @@
     "total_market_value_usd": 9851489,
     "num_funds_holding": 5,
     "total_shares": 483390
+  },
+  {
+    "issuer_name": "COYA THERAPEUTICS INC",
+    "cusip": "22407B108",
+    "total_market_value_usd": 9826532,
+    "num_funds_holding": 4,
+    "total_shares": 2494044
   },
   {
     "issuer_name": "ISHARES INC",
@@ -30009,6 +29974,13 @@
     "total_shares": 3517014
   },
   {
+    "issuer_name": "NET POWER INC",
+    "cusip": "64107A105",
+    "total_market_value_usd": 4851373,
+    "num_funds_holding": 6,
+    "total_shares": 3109855
+  },
+  {
     "issuer_name": "CRESUD S A C I F Y A",
     "cusip": "226406106",
     "total_market_value_usd": 4842491,
@@ -30231,13 +30203,6 @@
     "total_market_value_usd": 4677205,
     "num_funds_holding": 3,
     "total_shares": 100650
-  },
-  {
-    "issuer_name": "INVESCO ACTVELY MNGD ETC FD",
-    "cusip": "46090F100",
-    "total_market_value_usd": 4657789,
-    "num_funds_holding": 2,
-    "total_shares": 291437
   },
   {
     "issuer_name": "ISHARES TR",
@@ -30693,6 +30658,13 @@
     "total_market_value_usd": 4343428,
     "num_funds_holding": 4,
     "total_shares": 4698646
+  },
+  {
+    "issuer_name": "GOPRO INC",
+    "cusip": "38268T103",
+    "total_market_value_usd": 4339233,
+    "num_funds_holding": 6,
+    "total_shares": 5635368
   },
   {
     "issuer_name": "GLOBAL X FDS",
@@ -32263,6 +32235,13 @@
     "total_shares": 140661
   },
   {
+    "issuer_name": "INVESCO ACTVELY MNGD ETC FD",
+    "cusip": "46090F100",
+    "total_market_value_usd": 3367822,
+    "num_funds_holding": 1,
+    "total_shares": 194447
+  },
+  {
     "issuer_name": "CHARGEPOINT HOLDINGS INC",
     "cusip": "15961R303",
     "total_market_value_usd": 3367577,
@@ -33339,13 +33318,6 @@
     "total_market_value_usd": 2790339,
     "num_funds_holding": 2,
     "total_shares": 78117
-  },
-  {
-    "issuer_name": "DANIMER SCIENTIFIC INC",
-    "cusip": "236272100",
-    "total_market_value_usd": 2789272,
-    "num_funds_holding": 1,
-    "total_shares": 2734580
   },
   {
     "issuer_name": "GENESIS ENERGY L P",
@@ -35306,13 +35278,6 @@
     "total_market_value_usd": 2062308,
     "num_funds_holding": 3,
     "total_shares": 326294
-  },
-  {
-    "issuer_name": "GAIN THERAPEUTICS INC",
-    "cusip": "36269B105",
-    "total_market_value_usd": 2058510,
-    "num_funds_holding": 2,
-    "total_shares": 659210
   },
   {
     "issuer_name": "SPRING     VY   ACQUISITION   CORP   I",
@@ -38759,6 +38724,13 @@
     "total_shares": 3186630
   },
   {
+    "issuer_name": "GAIN THERAPEUTICS INC",
+    "cusip": "36269B105",
+    "total_market_value_usd": 1235644,
+    "num_funds_holding": 2,
+    "total_shares": 636930
+  },
+  {
     "issuer_name": "EATON VANCE TAX ADVT DIV INC",
     "cusip": "27828G107",
     "total_market_value_usd": 1235233,
@@ -39471,13 +39443,6 @@
     "total_market_value_usd": 1110578,
     "num_funds_holding": 2,
     "total_shares": 128987
-  },
-  {
-    "issuer_name": "TALIS BIOMEDICAL CORP",
-    "cusip": "87424L207",
-    "total_market_value_usd": 1110437,
-    "num_funds_holding": 1,
-    "total_shares": 149052
   },
   {
     "issuer_name": "EAGLE FINL SVCS INC",
@@ -52836,13 +52801,6 @@
     "total_shares": 10056
   },
   {
-    "issuer_name": "NEUBASE THERAPEUTICS INC",
-    "cusip": "64132K201",
-    "total_market_value_usd": 100912,
-    "num_funds_holding": 1,
-    "total_shares": 136350
-  },
-  {
     "issuer_name": "CHEMOMAB THERAPEUTICS LTD",
     "cusip": "16385C203",
     "total_market_value_usd": 100766,
@@ -56630,13 +56588,6 @@
     "total_shares": 29474
   },
   {
-    "issuer_name": "NUVATION BIO INC",
-    "cusip": "67080N119",
-    "total_market_value_usd": 6000,
-    "num_funds_holding": 1,
-    "total_shares": 100000
-  },
-  {
     "issuer_name": "SHF HOLDINGS INC",
     "cusip": "824430110",
     "total_market_value_usd": 5996,
@@ -56945,13 +56896,6 @@
     "total_shares": 54000
   },
   {
-    "issuer_name": "KATAPULT HOLDINGS INC",
-    "cusip": "485859110",
-    "total_market_value_usd": 2262,
-    "num_funds_holding": 2,
-    "total_shares": 402227
-  },
-  {
     "issuer_name": "INNOVATIVE EYEWEAR INC",
     "cusip": "45791D117",
     "total_market_value_usd": 1835,
@@ -57034,6 +56978,13 @@
     "total_market_value_usd": 928,
     "num_funds_holding": 1,
     "total_shares": 18750
+  },
+  {
+    "issuer_name": "KATAPULT HOLDINGS INC",
+    "cusip": "485859110",
+    "total_market_value_usd": 925,
+    "num_funds_holding": 2,
+    "total_shares": 402227
   },
   {
     "issuer_name": "KWESST MICRO SYSTEMS INC",

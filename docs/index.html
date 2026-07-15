@@ -7,13 +7,21 @@
 <style>
   :root {
     --bg: #0d1117; --panel: #161b22; --border: #30363d;
-    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --red: #f85149;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 60px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 60px; }
   h1 { font-size: 26px; letter-spacing: -0.5px; }
-  .sub { color: var(--muted); margin: 6px 0 24px; }
+  .sub { color: var(--muted); margin: 6px 0 20px; }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+  .tab {
+    background: none; border: none; color: var(--muted); font-size: 15px; padding: 10px 16px;
+    cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab:hover { color: var(--text); }
   .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
   input, select {
     background: var(--panel); color: var(--text); border: 1px solid var(--border);
@@ -22,11 +30,16 @@
   input:focus, select:focus { border-color: var(--accent); }
   input { flex: 1; min-width: 220px; }
   .stat { color: var(--muted); font-size: 13px; margin-left: auto; }
+  .summary {
+    display: flex; gap: 24px; flex-wrap: wrap; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px;
+  }
+  .summary div { font-size: 13px; color: var(--muted); }
+  .summary strong { display: block; font-size: 18px; color: var(--text); font-variant-numeric: tabular-nums; }
   table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  th, td { padding: 10px 14px; text-align: right; white-space: nowrap; }
-  th:first-child, td:first-child { text-align: right; color: var(--muted); }
-  th:nth-child(2), td:nth-child(2) { text-align: left; }
-  td:nth-child(2) { max-width: 340px; overflow: hidden; text-overflow: ellipsis; }
+  th, td { padding: 10px 13px; text-align: right; white-space: nowrap; }
+  th.issuer, td.issuer { text-align: left; }
+  td.issuer { max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
   thead th {
     background: #1c2129; color: var(--muted); font-size: 12px; text-transform: uppercase;
     letter-spacing: 0.4px; cursor: pointer; user-select: none; position: sticky; top: 0;
@@ -35,120 +48,267 @@
   tbody tr { border-top: 1px solid var(--border); }
   tbody tr:hover { background: #1c2129; }
   .val { font-variant-numeric: tabular-nums; }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
   .funds-badge {
     display: inline-block; min-width: 28px; text-align: center; border-radius: 999px;
     padding: 1px 8px; font-size: 12px; background: #12261e; color: var(--green); border: 1px solid #1f4d38;
   }
+  .badge { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 11px; font-weight: 600; }
+  .badge.new { background: #12261e; color: var(--green); border: 1px solid #1f4d38; }
+  .badge.exited { background: #2d1618; color: var(--red); border: 1px solid #58292c; }
   .more { display: block; margin: 18px auto 0; background: var(--panel); color: var(--accent);
     border: 1px solid var(--border); border-radius: 8px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
   .more:hover { border-color: var(--accent); }
+  .notice { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; color: var(--muted); }
   footer { color: var(--muted); font-size: 12.5px; margin-top: 28px; line-height: 1.7; }
   footer a { color: var(--accent); text-decoration: none; }
-  .arrow { font-size: 10px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>13F — Where the Smart Money Is</h1>
-  <p class="sub">Aggregated holdings of 20 top hedge funds from SEC 13F-HR filings, ranked by total dollars invested.</p>
+  <p class="sub">Aggregated holdings of 20 top hedge funds from SEC 13F-HR filings.</p>
 
-  <div class="controls">
-    <select id="quarter"></select>
-    <input id="search" type="search" placeholder="Search issuer or CUSIP…">
-    <span class="stat" id="stat"></span>
+  <div class="tabs">
+    <button class="tab active" data-view="holdings">Holdings</button>
+    <button class="tab" data-view="deltas">Quarterly Deltas</button>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th data-k="rank">#</th>
-        <th data-k="issuer_name">Issuer</th>
-        <th data-k="total_market_value_usd">Total Value</th>
-        <th data-k="num_funds_holding"># Funds</th>
-        <th data-k="total_shares">Shares</th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-  <button class="more" id="more">Show more</button>
+  <!-- ===================== HOLDINGS VIEW ===================== -->
+  <section id="view-holdings">
+    <div class="controls">
+      <select id="h-quarter"></select>
+      <input id="h-search" type="search" placeholder="Search issuer or CUSIP…">
+      <span class="stat" id="h-stat"></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th data-k="rank">#</th>
+          <th data-k="issuer_name" class="issuer">Issuer</th>
+          <th data-k="total_market_value_usd">Total Value</th>
+          <th data-k="num_funds_holding"># Funds</th>
+          <th data-k="total_shares">Shares</th>
+        </tr>
+      </thead>
+      <tbody id="h-rows"></tbody>
+    </table>
+    <button class="more" id="h-more">Show more</button>
+  </section>
+
+  <!-- ===================== DELTAS VIEW ===================== -->
+  <section id="view-deltas" style="display:none">
+    <div id="d-content">
+      <div class="controls">
+        <select id="d-pair"></select>
+        <input id="d-search" type="search" placeholder="Search issuer or CUSIP…">
+        <span class="stat" id="d-stat"></span>
+      </div>
+      <div class="summary" id="d-summary"></div>
+      <table>
+        <thead>
+          <tr>
+            <th data-k="rank">#</th>
+            <th data-k="issuer_name" class="issuer">Issuer</th>
+            <th data-k="delta">Δ Value</th>
+            <th data-k="pct" title="Delta as % of total money invested this quarter">Δ % of Total</th>
+            <th data-k="now">Now</th>
+            <th data-k="prev">Prev</th>
+            <th data-k="delta_shares">Δ Shares</th>
+            <th data-k="status">Status</th>
+          </tr>
+        </thead>
+        <tbody id="d-rows"></tbody>
+      </table>
+      <button class="more" id="d-more">Show more</button>
+    </div>
+    <div class="notice" id="d-notice" style="display:none">
+      Deltas need at least two quarters of data. Run the scraper for another quarter and publish it.
+    </div>
+  </section>
 
   <footer>
     Data: SEC EDGAR 13F-HR filings. Values are quarter-end positions, published 45 days after quarter close — a snapshot, not real-time.
     Long positions only; short positions are not disclosed in 13Fs.<br>
+    Note on deltas: a position's value changes with both trading <em>and</em> price moves — Δ Shares is the cleaner buy/sell signal, Δ Value is the money-weighted one.<br>
     Built by <a href="https://github.com/griegmic/13f">griegmic/13f</a>. Not investment advice.
   </footer>
 </div>
 
 <script>
 const PAGE = 100;
-let data = [], view = [], shown = PAGE;
-let sortKey = "total_market_value_usd", sortDir = -1;
-
 const $ = (id) => document.getElementById(id);
+let manifest = null;
+const cache = {}; // file -> parsed json
 
 function fmtUsd(n) {
-  if (n >= 1e9) return "$" + (n / 1e9).toFixed(1) + "B";
-  if (n >= 1e6) return "$" + (n / 1e6).toFixed(1) + "M";
-  if (n >= 1e3) return "$" + (n / 1e3).toFixed(0) + "K";
-  return "$" + n;
+  const a = Math.abs(n), sign = n < 0 ? "-" : "";
+  if (a >= 1e12) return sign + "$" + (a / 1e12).toFixed(2) + "T";
+  if (a >= 1e9) return sign + "$" + (a / 1e9).toFixed(1) + "B";
+  if (a >= 1e6) return sign + "$" + (a / 1e6).toFixed(1) + "M";
+  if (a >= 1e3) return sign + "$" + (a / 1e3).toFixed(0) + "K";
+  return sign + "$" + a;
+}
+function fmtSigned(n) { return (n > 0 ? "+" : "") + fmtUsd(n); }
+function fmtPct(p) {
+  const d = Math.abs(p) >= 0.1 ? 2 : 3;
+  return (p > 0 ? "+" : "") + p.toFixed(d) + "%";
+}
+function cls(n) { return n > 0 ? "pos" : n < 0 ? "neg" : ""; }
+
+async function loadFile(file) {
+  if (!cache[file]) {
+    const res = await fetch("data/" + file);
+    cache[file] = await res.json();
+  }
+  return cache[file];
 }
 
-function render() {
-  const rows = view.slice(0, shown).map((r) => `
+function makeTable(cfg) {
+  // cfg: rowsEl, statEl, moreEl, searchEl, render(row), match(row, q), defaultKey
+  const t = { data: [], view: [], shown: PAGE, sortKey: cfg.defaultKey, sortDir: 1, ...cfg };
+  t.apply = () => {
+    const q = t.searchEl.value.trim().toUpperCase();
+    t.view = q ? t.data.filter((r) => t.match(r, q)) : t.data.slice();
+    t.view.sort((a, b) => {
+      const x = a[t.sortKey], y = b[t.sortKey];
+      return (x < y ? 1 : x > y ? -1 : 0) * t.sortDir;
+    });
+    t.shown = PAGE;
+    t.draw();
+  };
+  t.draw = () => {
+    t.rowsEl.innerHTML = t.view.slice(0, t.shown).map(t.render).join("");
+    t.statEl.textContent = `${t.view.length.toLocaleString()} securities`;
+    t.moreEl.style.display = t.shown < t.view.length ? "block" : "none";
+    t.headEl.querySelectorAll("th").forEach((th) => {
+      const base = th.textContent.replace(/ [▲▼]$/, "");
+      th.textContent = th.dataset.k === t.sortKey ? base + (t.sortDir > 0 ? " ▼" : " ▲") : base;
+    });
+  };
+  t.searchEl.oninput = t.apply;
+  t.moreEl.onclick = () => { t.shown += PAGE * 4; t.draw(); };
+  t.headEl = t.rowsEl.closest("table").querySelector("thead tr");
+  t.headEl.querySelectorAll("th").forEach((th) => {
+    th.onclick = () => {
+      const k = th.dataset.k;
+      if (t.sortKey === k) t.sortDir *= -1;
+      else { t.sortKey = k; t.sortDir = k === "issuer_name" ? -1 : 1; }
+      t.apply();
+    };
+  });
+  return t;
+}
+
+/* ---------- Holdings ---------- */
+const hTable = makeTable({
+  rowsEl: $("h-rows"), statEl: $("h-stat"), moreEl: $("h-more"), searchEl: $("h-search"),
+  defaultKey: "total_market_value_usd",
+  match: (r, q) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q),
+  render: (r) => `
     <tr>
-      <td>${r.rank}</td>
-      <td title="CUSIP ${r.cusip}">${r.issuer_name}</td>
+      <td class="val">${r.rank}</td>
+      <td class="issuer" title="CUSIP ${r.cusip}">${r.issuer_name}</td>
       <td class="val" title="$${r.total_market_value_usd.toLocaleString()}">${fmtUsd(r.total_market_value_usd)}</td>
       <td><span class="funds-badge">${r.num_funds_holding}</span></td>
       <td class="val">${r.total_shares.toLocaleString()}</td>
-    </tr>`).join("");
-  $("rows").innerHTML = rows;
-  $("stat").textContent = `${view.length.toLocaleString()} securities`;
-  $("more").style.display = shown < view.length ? "block" : "none";
-  document.querySelectorAll("thead th").forEach((th) => {
-    const base = th.textContent.replace(/ [▲▼]$/, "");
-    th.textContent = th.dataset.k === sortKey ? base + (sortDir < 0 ? " ▼" : " ▲") : base;
-  });
-}
+    </tr>`,
+});
 
-function apply() {
-  const q = $("search").value.trim().toUpperCase();
-  view = q
-    ? data.filter((r) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q))
-    : data.slice();
-  view.sort((a, b) => (a[sortKey] < b[sortKey] ? sortDir : a[sortKey] > b[sortKey] ? -sortDir : 0) * -1);
-  shown = PAGE;
-  render();
-}
-
-async function loadQuarter(file) {
-  const res = await fetch("data/" + file);
-  data = await res.json();
-  // rank by value regardless of current sort
+async function loadHoldings(file) {
+  const data = (await loadFile(file)).slice();
   data.sort((a, b) => b.total_market_value_usd - a.total_market_value_usd);
   data.forEach((r, i) => (r.rank = i + 1));
-  apply();
+  hTable.data = data;
+  hTable.apply();
 }
 
+/* ---------- Deltas ---------- */
+const dTable = makeTable({
+  rowsEl: $("d-rows"), statEl: $("d-stat"), moreEl: $("d-more"), searchEl: $("d-search"),
+  defaultKey: "delta",
+  match: (r, q) => r.issuer_name.toUpperCase().includes(q) || r.cusip.includes(q),
+  render: (r) => `
+    <tr>
+      <td class="val">${r.rank}</td>
+      <td class="issuer" title="CUSIP ${r.cusip}">${r.issuer_name}</td>
+      <td class="val ${cls(r.delta)}" title="$${r.delta.toLocaleString()}">${fmtSigned(r.delta)}</td>
+      <td class="val ${cls(r.delta)}">${fmtPct(r.pct)}</td>
+      <td class="val">${fmtUsd(r.now)}</td>
+      <td class="val">${fmtUsd(r.prev)}</td>
+      <td class="val ${cls(r.delta_shares)}">${(r.delta_shares > 0 ? "+" : "") + r.delta_shares.toLocaleString()}</td>
+      <td>${r.status === "NEW" ? '<span class="badge new">NEW</span>' : r.status === "EXITED" ? '<span class="badge exited">EXITED</span>' : ""}</td>
+    </tr>`,
+});
+
+async function loadDeltas(nowQ, prevQ) {
+  const [nowData, prevData] = await Promise.all([loadFile(nowQ.file), loadFile(prevQ.file)]);
+  const prevBy = Object.fromEntries(prevData.map((r) => [r.cusip, r]));
+  const nowBy = Object.fromEntries(nowData.map((r) => [r.cusip, r]));
+  const totalNow = nowData.reduce((s, r) => s + r.total_market_value_usd, 0);
+  const totalPrev = prevData.reduce((s, r) => s + r.total_market_value_usd, 0);
+
+  const rows = [];
+  for (const cusip of new Set([...Object.keys(nowBy), ...Object.keys(prevBy)])) {
+    const n = nowBy[cusip], p = prevBy[cusip];
+    const now = n ? n.total_market_value_usd : 0;
+    const prev = p ? p.total_market_value_usd : 0;
+    const delta = now - prev;
+    rows.push({
+      cusip,
+      issuer_name: (n || p).issuer_name,
+      now, prev, delta,
+      pct: (delta / totalNow) * 100,
+      delta_shares: (n ? n.total_shares : 0) - (p ? p.total_shares : 0),
+      status: !p ? "NEW" : !n ? "EXITED" : "",
+    });
+  }
+  rows.sort((a, b) => b.delta - a.delta);
+  rows.forEach((r, i) => (r.rank = i + 1));
+
+  const net = totalNow - totalPrev;
+  $("d-summary").innerHTML = `
+    <div>Total invested ${nowQ.label}<strong>${fmtUsd(totalNow)}</strong></div>
+    <div>Total invested ${prevQ.label}<strong>${fmtUsd(totalPrev)}</strong></div>
+    <div>Net change<strong class="${cls(net)}">${fmtSigned(net)} (${fmtPct((net / totalPrev) * 100)})</strong></div>
+    <div>New positions<strong>${rows.filter((r) => r.status === "NEW").length.toLocaleString()}</strong></div>
+    <div>Exited positions<strong>${rows.filter((r) => r.status === "EXITED").length.toLocaleString()}</strong></div>`;
+
+  dTable.data = rows;
+  dTable.apply();
+}
+
+/* ---------- Tabs + init ---------- */
+document.querySelectorAll(".tab").forEach((tab) => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t === tab));
+    $("view-holdings").style.display = tab.dataset.view === "holdings" ? "" : "none";
+    $("view-deltas").style.display = tab.dataset.view === "deltas" ? "" : "none";
+  };
+});
+
 async function init() {
-  const res = await fetch("data/manifest.json");
-  const manifest = await res.json();
-  const sel = $("quarter");
-  sel.innerHTML = manifest.quarters
-    .map((q) => `<option value="${q.file}">${q.label}</option>`)
-    .join("");
-  sel.onchange = () => loadQuarter(sel.value);
-  $("search").oninput = apply;
-  $("more").onclick = () => { shown += PAGE * 4; render(); };
-  document.querySelectorAll("thead th").forEach((th) => {
-    th.onclick = () => {
-      const k = th.dataset.k;
-      if (sortKey === k) sortDir *= -1;
-      else { sortKey = k; sortDir = k === "issuer_name" ? 1 : -1; }
-      apply();
-    };
-  });
-  await loadQuarter(manifest.quarters[0].file);
+  manifest = await (await fetch("data/manifest.json")).json();
+  const qs = manifest.quarters; // newest first
+
+  const hSel = $("h-quarter");
+  hSel.innerHTML = qs.map((q) => `<option value="${q.file}">${q.label}</option>`).join("");
+  hSel.onchange = () => loadHoldings(hSel.value);
+
+  if (qs.length >= 2) {
+    const dSel = $("d-pair");
+    dSel.innerHTML = qs.slice(0, -1)
+      .map((q, i) => `<option value="${i}">${q.label} vs ${qs[i + 1].label}</option>`)
+      .join("");
+    dSel.onchange = () => loadDeltas(qs[+dSel.value], qs[+dSel.value + 1]);
+    await loadDeltas(qs[0], qs[1]);
+  } else {
+    $("d-content").style.display = "none";
+    $("d-notice").style.display = "block";
+  }
+
+  await loadHoldings(qs[0].file);
 }
 init();
 </script>

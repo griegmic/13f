@@ -7,6 +7,7 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 `python scraper.py` — the only entry point. Flags:
 - no flags: only runs if today is inside a 13F run window (deadline + 2 to + 5 days)
 - `--force`: run regardless of date
+- `--period 2025Q4`: backfill a specific historical quarter (bypasses the window check)
 - `--test-fund`: fetch and print Bridgewater's latest filing only (smoke test)
 
 ## Active path
@@ -20,6 +21,10 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 ## Secondary flow: the mini site
 
 `docs/` is a static GitHub Pages site (served from main `/docs` at https://griegmic.github.io/13f/). `docs/index.html` is self-contained (vanilla JS, no build step); it reads `docs/data/manifest.json` for the quarter list, then loads `docs/data/holdings_YYYYQQ.json`. After each scraper run, `python publish_site.py` copies new quarters from `output/` into `docs/data/` and rebuilds the manifest — then commit and push `docs/` to update the live site.
+
+Two tabs:
+- **Holdings** — one quarter's aggregate, sortable/searchable.
+- **Quarterly Deltas** — computed *client-side* by joining two adjacent quarters' JSON on CUSIP (no precomputed delta files). Shows Δ value, Δ as % of that quarter's total invested, Δ shares, and NEW/EXITED badges. Requires ≥ 2 quarters in the manifest; shows a notice otherwise. Caveat surfaced in the footer: Δ value conflates trading with price moves — Δ shares is the cleaner buy/sell signal.
 
 ## Alternate paths / dead code / insurance
 
@@ -40,7 +45,7 @@ None yet — every module is on the active path. `test_scraper.py` is the test s
 - Filers name their infotable XML arbitrarily (`MSFS13F033126.XML`, `53405.xml`); `edgar_client.get_infotable_url` picks any `.xml` that isn't `primary_doc.xml`, preferring names containing "infotable".
 - `parser.py` parses XML with namespaces intact, then strips `{ns}` from tags in the parsed tree; regex-stripping raw text is only a fallback (stripping declarations while leaving `ns1:` prefixes breaks the parse).
 - The 13F `value` field is **full USD** since the SEC's 2023 schema change (was thousands before) — do not multiply by 1000.
-- `funds.json` CIKs must be the actual 13F-filing entity — big funds have multiple/defunct CIKs. Verify new entries via EDGAR company search filtered to type 13F-HR, and confirm a recent filing exists.
+- `funds.json` CIKs must be the actual 13F-filing entity — big funds have multiple/defunct CIKs. Verify new entries via EDGAR company search filtered to type 13F-HR, and confirm a recent filing exists. Funds also *move* CIKs (Greenlight → DME Capital Management in 2024); `scraper.run` excludes any fund whose latest filing is for a different quarter than the majority, so a dead CIK can't pollute a quarter with stale data — watch for its "Excluding" warning.
 - 13F deadlines are 45 days after quarter end; `scheduler.py` hard-codes 2026 dates and the run window is `[deadline + 2, deadline + 5]` to catch late filers.
 - `aggregate.py` keys everything on CUSIP, not ticker — 13F filings don't contain tickers.
 - See `Common-Problems.md` (2026-07-13 entry) for the debugging history behind these notes.

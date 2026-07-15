@@ -84,11 +84,22 @@ python scraper.py
 
 ## Mini site
 
-The results are browsable at **https://griegmic.github.io/13f/** — sortable/searchable table of all holdings, one dataset per quarter. To update it after a scraper run:
+The results are browsable at **https://griegmic.github.io/13f/** with two tabs:
+
+- **Holdings** — sortable/searchable table of one quarter's aggregate positions.
+- **Quarterly Deltas** — how much money moved into or out of each asset vs the prior quarter: Δ value (signed, colored), Δ as a **percentage of total money invested that quarter**, Δ shares, and NEW/EXITED badges for opened/closed positions. Computed in the browser from two quarters' data; needs at least two published quarters. Note: Δ value includes price moves, not just buying/selling — Δ shares isolates actual trading.
+
+To update the site after a scraper run:
 
 ```bash
 python publish_site.py   # copies output/*.json into docs/data/ + rebuilds manifest
 git add docs && git commit -m "Publish Qn data" && git push
+```
+
+To backfill a historical quarter (needed for deltas across older periods):
+
+```bash
+python scraper.py --period 2025Q4
 ```
 
 ## SEC EDGAR usage rules

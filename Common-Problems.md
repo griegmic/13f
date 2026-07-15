@@ -38,3 +38,17 @@ Verified: full run parses all 20 funds (~39k positions → 8,171 unique CUSIPs) 
 **Prevention:** Don't trust LLM-generated CIKs — verify against EDGAR company search (`browse-edgar?action=getcompany&company=<name>&type=13F-HR`) and confirm a recent filing exists. When code that calls a real API only has mocked tests, smoke-test one live request before assuming the schema.
 
 ---
+
+## Q1 2026 dataset silently contained Greenlight's December 2023 portfolio (2026-07-14)
+
+**Status:** Resolved
+**Symptom:** While backfilling Q4 2025 for the deltas feature, Greenlight Capital (CIK 1079114) returned "No 13F-HR filing found" — yet the Q1 2026 run had happily "parsed 116 positions" from the same CIK the day before.
+**Root cause:** Greenlight stopped filing under CIK 1079114 after 2023-12-31 (the firm now files as **DME Capital Management, LP**, CIK 1489933). `get_latest_13f` returns whatever the newest filing is, regardless of age, so the "Q1 2026" aggregate silently included a portfolio snapshot from December 2023. Nothing flagged the mismatch — the run labels output by the *most common* period across funds and included every fund's positions regardless of its own period.
+**What was tried:** Checked CIK 1079114's submissions JSON directly — last 13F-HR was 2023-12-31, confirming a dead CIK rather than a fetch bug. EDGAR company search for "Greenlight" only returned the dead CIK; searching "DME Capital" found the successor entity with a current Q1 2026 filing.
+**Solve:**
+- `funds.json` — Greenlight Capital Inc (1079114) → DME Capital Management LP (1489933)
+- `scraper.py:run` — funds whose filing period differs from the majority period are now excluded with an "Excluding <fund> — filed for X, not Y" warning, so a stale CIK can degrade coverage but never pollute the data
+- Rebuilt both quarters; verified DME contributes Q1 2026 positions and no fund is excluded
+**Prevention:** Funds don't just have wrong CIKs — they *migrate* CIKs over time (restructures, renames). Watch scraper logs for the "Excluding" warning each quarter; it's the signal that a fund in `funds.json` needs its CIK re-verified.
+
+---
