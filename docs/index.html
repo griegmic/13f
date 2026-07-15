@@ -90,6 +90,8 @@
     <button class="tab" data-view="deltas">Quarterly Deltas</button>
     <button class="tab" data-view="buys">Biggest Buys</button>
     <button class="tab" data-view="sells">Biggest Sells</button>
+    <button class="tab" data-view="new">New Positions</button>
+    <button class="tab" data-view="exited">Exited</button>
   </div>
 
   <!-- ===================== HOLDINGS VIEW ===================== -->
@@ -146,6 +148,24 @@
         <li><strong>EXITED</strong> — a position fully closed this quarter, the strongest sell signal in 13F data.</li>
       </ul>
       Caveat: stock splits inflate share counts without any trading and can fake a large "sell" or "buy."
+    </details>
+    <details class="howto" id="howto-new" style="display:none">
+      <summary>How to read this tab</summary>
+      Securities that <strong>none of the 20 funds held last quarter</strong> and at least one holds now — fresh money into fresh names, ranked by the size of the new stake. Because this is the combined view, a stock one fund already owned that another fund just bought won't appear here (that shows up as buying on the Biggest Buys tab instead).
+      <ul>
+        <li><strong>Est. Flow</strong> — the full size of the new position (a new stake is pure inflow).</li>
+        <li><strong>% of All Buying</strong> — the new stake's share of all money funds added this quarter.</li>
+        <li>Most brand-new names are small starter positions — the interesting ones are large flows, which mean a fund opened with conviction rather than dipping a toe.</li>
+      </ul>
+    </details>
+    <details class="howto" id="howto-exited" style="display:none">
+      <summary>How to read this tab</summary>
+      Securities the funds held last quarter and <strong>hold zero of now — fully closed out across all 20 funds</strong>, ranked by money removed. A full exit is the strongest sell signal 13F data offers: someone didn't trim, they left. Partial sells live on the Biggest Sells tab.
+      <ul>
+        <li><strong>Est. Flow</strong> — the prior position value, all of it withdrawn.</li>
+        <li><strong>% of All Selling</strong> — the exit's share of all money funds pulled out this quarter.</li>
+        <li>Prev shows what the position was worth before the exit; Now is always $0.</li>
+      </ul>
     </details>
     <details class="howto" id="howto-deltas">
       <summary>How to read this tab</summary>
@@ -244,6 +264,8 @@ function makeTable(cfg) {
     t.view = q ? t.data.filter((r) => t.match(r, q)) : t.data.slice();
     if (t.mode === "buys") t.view = t.view.filter((r) => r.flow > 0);
     else if (t.mode === "sells") t.view = t.view.filter((r) => r.flow < 0);
+    else if (t.mode === "new") t.view = t.view.filter((r) => r.status === "NEW");
+    else if (t.mode === "exited") t.view = t.view.filter((r) => r.status === "EXITED");
     t.view.sort((a, b) => {
       const x = a[t.sortKey], y = b[t.sortKey];
       return (x < y ? 1 : x > y ? -1 : 0) * t.sortDir;
@@ -374,9 +396,11 @@ async function loadDeltas(nowQ, prevQ) {
 function updatePct() {
   const inf = dTable.inflow || 1;
   const out = Math.abs(dTable.outflow) || 1;
+  const buySide = dTable.mode === "buys" || dTable.mode === "new";
+  const sellSide = dTable.mode === "sells" || dTable.mode === "exited";
   for (const r of dTable.data) {
-    r.pct = dTable.mode === "buys" ? (r.flow / inf) * 100
-      : dTable.mode === "sells" ? (Math.abs(r.flow) / out) * 100
+    r.pct = buySide ? (r.flow / inf) * 100
+      : sellSide ? (Math.abs(r.flow) / out) * 100
       : 0;
   }
 }
@@ -389,21 +413,21 @@ document.querySelectorAll(".tab").forEach((tab) => {
     $("view-holdings").style.display = v === "holdings" ? "" : "none";
     $("view-deltas").style.display = v === "holdings" ? "none" : "";
     if (v !== "holdings") {
-      // Buys/Sells are the delta table filtered by flow direction
-      dTable.mode = v === "buys" ? "buys" : v === "sells" ? "sells" : "all";
+      // Buys/Sells/New/Exited are the delta table with different filters
+      dTable.mode = v === "deltas" ? "all" : v;
       dTable.sortKey = "flow";
-      dTable.sortDir = v === "sells" ? -1 : 1; // sells: most negative first
+      const sellSide = v === "sells" || v === "exited";
+      dTable.sortDir = sellSide ? -1 : 1; // sell side: most negative first
       $("d-table").classList.toggle("hide-pct", v === "deltas");
       const pctTh = $("d-table").querySelector('th[data-k="pct"]');
-      pctTh.textContent = v === "sells" ? "% of All Selling" : "% of All Buying";
-      pctTh.title = v === "sells"
+      pctTh.textContent = sellSide ? "% of All Selling" : "% of All Buying";
+      pctTh.title = sellSide
         ? "This asset's share of all money funds pulled out this quarter"
         : "This asset's share of all money funds added this quarter";
       updatePct();
       dTable.apply();
-      $("howto-deltas").style.display = v === "deltas" ? "" : "none";
-      $("howto-buys").style.display = v === "buys" ? "" : "none";
-      $("howto-sells").style.display = v === "sells" ? "" : "none";
+      for (const k of ["deltas", "buys", "sells", "new", "exited"])
+        $("howto-" + k).style.display = v === k ? "" : "none";
     }
   };
 });

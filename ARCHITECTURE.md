@@ -22,10 +22,11 @@ Codebase map. Claude-maintained. Read this before modifying code so you don't en
 
 `docs/` is a static GitHub Pages site (served from main `/docs` at https://griegmic.github.io/13f/). `docs/index.html` is self-contained (vanilla JS, no build step); it reads `docs/data/manifest.json` for the quarter list, then loads `docs/data/holdings_YYYYQQ.json`. After each scraper run, `python publish_site.py` copies new quarters from `output/` into `docs/data/`, copies `funds.json` (the page's "Funds tracked" panel reads it), and rebuilds the manifest — then commit and push `docs/` to update the live site.
 
-Four tabs (Buys/Sells reuse the deltas section with a flow-direction filter — there is no separate code path):
+Six tabs (Buys/Sells/New/Exited all reuse the deltas section with different filters — there is no separate code path):
 - **Holdings** — one quarter's aggregate, sortable/searchable.
 - **Quarterly Deltas** — computed *client-side* by joining two adjacent quarters' JSON on CUSIP (no precomputed delta files). Headline metric is **Est. Flow** = Δ shares × quarter-end implied price (value ÷ shares): the money added/removed by trading, with price moves stripped out. Value change decomposes as Δvalue = flow + price effect; NEW positions are pure inflow, EXITED are −prior value. Also shows raw Δ value, Δ shares, NEW/EXITED badges. No percentage column on this tab (hidden via the `hide-pct` class on `#d-table`). Requires ≥ 2 quarters in the manifest. Known distortion: stock splits change share counts without trades and fake a large flow.
-- **Biggest Buys / Biggest Sells** — the delta table filtered to positive/negative flow. The **% of All Buying / % of All Selling** column appears only here; its denominator is the *gross* flow in that tab's direction (all buying or all selling that quarter), recomputed per-mode by `updatePct()`. Each tab has its own "How to read" explainer (`#howto-deltas/-buys/-sells`), swapped by the tab handler.
+- **Biggest Buys / Biggest Sells** — the delta table filtered to positive/negative flow. The **% of All Buying / % of All Selling** column appears on all four filtered tabs; its denominator is the *gross* flow on that tab's side (all buying or all selling that quarter), recomputed per-mode by `updatePct()`.
+- **New Positions / Exited** — the delta table filtered by `status === "NEW"` / `"EXITED"`. NEW/EXITED is group-level (aggregate across all 20 funds): NEW = no fund held it last quarter; EXITED = every holder closed out. New uses the buy-side denominator, Exited the sell-side. Each filtered tab has its own "How to read" explainer (`#howto-<view>`), swapped by the tab handler.
 
 ## Alternate paths / dead code / insurance
 

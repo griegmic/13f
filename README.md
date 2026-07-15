@@ -89,6 +89,7 @@ The results are browsable at **https://griegmic.github.io/13f/**:
 - **Holdings** — sortable/searchable table of one quarter's aggregate positions.
 - **Quarterly Deltas** — how much money moved into or out of each asset vs the prior quarter. The headline number is **Est. Flow**: Δ shares × quarter-end implied price (value ÷ shares), i.e. the money actually added/removed by *trading*. Raw Δ value (which also includes price moves), Δ shares, and NEW/EXITED badges are alongside. Computed in the browser from two quarters' data; needs at least two published quarters. Caveat: flow estimates are distorted by stock splits (share counts jump without trades).
 - **Biggest Buys / Biggest Sells** — the delta table filtered to only inflows or only outflows, ranked by flow size. These tabs carry the percentage column: **% of All Buying** (this asset's share of all money added that quarter) or **% of All Selling** (its share of all money removed).
+- **New Positions / Exited** — securities no fund held last quarter (fresh names), and securities fully closed out across all 20 funds (the strongest sell signal). Same delta table, filtered by NEW/EXITED status.
 
 To update the site after a scraper run:
 
